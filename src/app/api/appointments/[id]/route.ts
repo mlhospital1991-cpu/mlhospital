@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 
 // PATCH /api/appointments/[id] - Update status
 export async function PATCH(
-  request: Request,
-  context: any
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getSession();
   if (!session) {
@@ -26,7 +26,7 @@ export async function PATCH(
       return NextResponse.json({ error: "Status is required" }, { status: 400 });
     }
 
-    const { id } = await context.params;
+    const { id } = await params;
 
     // Ownership check for Doctors
     if (session.role === "DOCTOR") {
@@ -50,8 +50,8 @@ export async function PATCH(
 
 // DELETE /api/appointments/[id]
 export async function DELETE(
-  request: Request,
-  context: any
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getSession();
   if (!session) {
@@ -65,7 +65,7 @@ export async function DELETE(
   }
 
   try {
-    const { id } = await context.params;
+    const { id } = await params;
 
     // Ownership check for Doctors
     if (session.role === "DOCTOR") {

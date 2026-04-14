@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 
 // PATCH /api/users/[id] - Update user role/permissions (Admin only)
 export async function PATCH(
-  request: Request,
-  context: any
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getSession();
   if (!session || session.role !== "ADMIN") {
@@ -13,7 +13,7 @@ export async function PATCH(
   }
 
   try {
-    const { id } = await context.params;
+    const { id } = await params;
     const { role, permissions, name } = await request.json();
 
     const updatedUser = await prisma.user.update({
@@ -38,8 +38,8 @@ export async function PATCH(
 
 // DELETE /api/users/[id] - Delete user (Admin only)
 export async function DELETE(
-  request: Request,
-  context: any
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getSession();
   if (!session || session.role !== "ADMIN") {
@@ -47,7 +47,7 @@ export async function DELETE(
   }
 
   try {
-    const { id } = await context.params;
+    const { id } = await params;
 
     // Prevent admin from deleting themselves
     if (id === session.id) {
