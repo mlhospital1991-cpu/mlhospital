@@ -5,7 +5,7 @@ import { getSession } from "@/lib/auth";
 // PATCH /api/users/[id] - Update user role/permissions (Admin only)
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getSession();
   if (!session || session.role !== "ADMIN") {
@@ -39,7 +39,7 @@ export async function PATCH(
 // DELETE /api/users/[id] - Delete user (Admin only)
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getSession();
   if (!session || session.role !== "ADMIN") {
