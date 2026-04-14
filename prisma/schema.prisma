@@ -15,7 +15,7 @@ model Appointment {
   doctor    String
   date      String
   time      String
-  status    String   @default("pending") // pending, forwarded, completed
+  status    String   @default("pending")
   opNumber  String?
   createdAt DateTime @default(now())
 }
@@ -23,10 +23,10 @@ model Appointment {
 model User {
   id          String   @id @default(cuid())
   username    String   @unique
-  password    String   // Hashed
+  password    String
   name        String
-  role        String   @default("NURSE") // ADMIN, DOCTOR, NURSE
-  permissions String   @default("[]")    // JSON stringified array of permission strings
+  role        String   @default("NURSE")
+  permissions String   @default("[]")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

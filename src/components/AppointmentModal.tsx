@@ -14,11 +14,11 @@ interface Doctor {
 
 const doctors: Doctor[] = [
   { id: "general", name: "General Consultation", specialty: "Any Available Doctor", image: "" },
-  { id: 1, name: "Dr. S. Manimekalai", specialty: "Founder, Gynaecologist", image: "/doctors/Dr Manimekalai.jpeg" },
-  { id: 2, name: "Dr. M. Radhakrishnan", specialty: "Co-Founder, Plastic Surgeon", image: "/doctors/Dr Radhakrishnan.jpeg" },
-  { id: 3, name: "Dr. R. Aravind", specialty: "Consultant Orthopedic Surgeon", image: "/doctors/Dr Aravind.jpeg" },
-  { id: 4, name: "Dr. Keerthana", specialty: "Medical Specialist", image: "/doctors/Dr Keerthana.jpeg" },
-  { id: 5, name: "Dr. Aarthy", specialty: "Medical Specialist", image: "/doctors/Dr Aarthy.jpeg" },
+  { id: 1, name: "Dr. S. Manimekalai", specialty: "Founder, Gynaecologist", image: "/doctors/dr-manimekalai.jpg" },
+  { id: 2, name: "Dr. M. Radhakrishnan", specialty: "Co-Founder, Plastic Surgeon", image: "/doctors/dr-radhakrishnan.jpg" },
+  { id: 3, name: "Dr. R. Aravind", specialty: "Consultant Orthopedic Surgeon", image: "/doctors/dr-aravind.jpg" },
+  { id: 4, name: "Dr. Keerthana", specialty: "Medical Specialist", image: "/doctors/dr-keerthana.jpg" },
+  { id: 5, name: "Dr. Aarthy", specialty: "Medical Specialist", image: "/doctors/dr-aarthy.jpg" },
 ];
 
 interface AppointmentModalProps {
