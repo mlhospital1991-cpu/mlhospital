@@ -5,7 +5,7 @@ import { getSession } from "@/lib/auth";
 // PATCH /api/appointments/[id] - Update status
 export async function PATCH(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  context: any
 ) {
   const session = await getSession();
   if (!session) {
@@ -26,7 +26,7 @@ export async function PATCH(
       return NextResponse.json({ error: "Status is required" }, { status: 400 });
     }
 
-    const { id } = await params;
+    const { id } = await context.params;
 
     // Ownership check for Doctors
     if (session.role === "DOCTOR") {
@@ -51,7 +51,7 @@ export async function PATCH(
 // DELETE /api/appointments/[id]
 export async function DELETE(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  context: any
 ) {
   const session = await getSession();
   if (!session) {
@@ -65,7 +65,7 @@ export async function DELETE(
   }
 
   try {
-    const { id } = await params;
+    const { id } = await context.params;
 
     // Ownership check for Doctors
     if (session.role === "DOCTOR") {
