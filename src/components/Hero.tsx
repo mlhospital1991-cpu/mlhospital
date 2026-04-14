@@ -20,7 +20,7 @@ const Hero = () => {
       {/* Background with Strengthened Gradient for Text Legibility */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/hero-image.jpeg"
+          src="/hero-image.jpg"
           alt="Emergency trauma care hospital in Nagercoil"
           fill
           sizes="100vw"

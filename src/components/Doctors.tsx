@@ -14,7 +14,7 @@ const doctors = [
     specialty: "Founder, Gynaecologist",
     qualification: "MBBS, DGO",
     experience: "34+ Years of Excellence",
-    image: "/doctors/dr-manimekalai.jpeg",
+    image: "/doctors/dr-manimekalai.jpg",
     tags: ["Maternity", "Gynaecology", "General Surgery"]
   },
   {
@@ -23,7 +23,7 @@ const doctors = [
     specialty: "Co-Founder, Plastic Surgeon",
     qualification: "MBBS, MS, MCh (Plastic Surgery)",
     experience: "Trauma & Reconstructive Expert",
-    image: "/doctors/dr-radhakrishnan.jpeg",
+    image: "/doctors/dr-radhakrishnan.jpg",
     tags: ["Plastic Surgery", "Burns Care", "Trauma"]
   },
   {
@@ -32,7 +32,7 @@ const doctors = [
     specialty: "Consultant Orthopedic Surgeon",
     qualification: "MBBS, MS (Ortho)",
     experience: "Fracture & Spine Specialist",
-    image: "/doctors/dr-aravind.jpeg",
+    image: "/doctors/dr-aravind.jpg",
     tags: ["Orthopaedics", "Trauma Surgery", "Fracture Care"]
   },
   {
@@ -41,7 +41,7 @@ const doctors = [
     specialty: "Medical Specialist",
     qualification: "MBBS",
     experience: "Emergency & Critical Care",
-    image: "/doctors/dr-keerthana.jpeg",
+    image: "/doctors/dr-keerthana.jpg",
     tags: ["Internal Medicine", "Specialist Care"]
   },
   {
@@ -50,7 +50,7 @@ const doctors = [
     specialty: "Medical Specialist",
     qualification: "MBBS",
     experience: "Primary & Emergency Care",
-    image: "/doctors/dr-aarthy.jpeg",
+    image: "/doctors/dr-aarthy.jpg",
     tags: ["Medical Specialist", "Emergency Care"]
   }
 ];
