@@ -74,7 +74,17 @@ const Doctors = ({ doctors }: { doctors: Doctor[] }) => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ 
+                type: "spring",
+                stiffness: 100,
+                damping: 20,
+                delay: index * 0.1 
+              }}
+              whileHover={{ 
+                scale: 1.01, 
+                y: -4,
+                transition: { type: "spring", stiffness: 300, damping: 15 }
+              }}
               className="group bg-slate-50/50 rounded-[40px] overflow-hidden border border-slate-100 hover:shadow-2xl hover:shadow-brand-teal/5 transition-all duration-500 w-full sm:w-[calc(50%-20px)] lg:w-[calc(33.333%-27px)] max-w-[400px] flex flex-col relative"
             >
               {/* Availability Badge */}

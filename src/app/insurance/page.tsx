@@ -77,12 +77,12 @@ const LogoCard = ({ partner, idx }: { partner: any, idx: number }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: imageStatus === "success" ? 1 : 0.5 }}
               exit={{ opacity: 0 }}
-              className="grayscale group-hover:grayscale-0 transition-all duration-500 opacity-60 group-hover:opacity-100 flex items-center justify-center w-full h-full"
+              className="transition-all duration-500 flex items-center justify-center w-full h-full"
             >
               <img
                 src={logoUrl}
                 alt={partner.name}
-                className="w-16 h-16 object-contain"
+                className="w-16 h-16 object-contain group-hover:scale-110 transition-transform duration-500"
                 onLoad={() => setImageStatus("success")}
                 onError={() => setImageStatus("error")}
               />

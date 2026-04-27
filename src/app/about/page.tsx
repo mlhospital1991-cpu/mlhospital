@@ -68,7 +68,7 @@ export default function AboutPage() {
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[11px] font-bold uppercase tracking-widest mb-6"
           >
             <History size={14} className="text-brand-teal" />
-            34 Years of Dedication
+            35 Years of Dedication
           </motion.div>
           
           <motion.h1 
@@ -109,7 +109,7 @@ export default function AboutPage() {
             </h2>
             <div className="space-y-6 text-slate-600 leading-[1.8] text-base md:text-lg font-medium">
               <p>
-                Our institution has been a trusted presence in the community for over <span className="text-brand-teal font-bold">34 years</span>, delivering comprehensive healthcare services with a strong emphasis on surgical care. We specialize in trauma and emergency management, ensuring rapid, coordinated, and high-quality interventions for critical cases.
+                Our institution has been a trusted presence in the community for over <span className="text-brand-teal font-bold">35 years</span>, delivering comprehensive healthcare services with a strong emphasis on surgical care. We specialize in trauma and emergency management, ensuring rapid, coordinated, and high-quality interventions for critical cases.
               </p>
               <p>
                 Committed to providing accessible and affordable healthcare, we offer a wide range of services under one roof. Our dedicated trauma team, supported by efficient emergency ambulance services, enables us to deliver timely and effective care when it matters most.
@@ -204,7 +204,7 @@ export default function AboutPage() {
         <div className="relative z-10 max-w-3xl mx-auto px-6">
           <h3 className="text-3xl md:text-5xl font-bold mb-8">Serving Nagercoil Since 1991</h3>
           <p className="text-slate-400 mb-12 text-lg font-medium">
-            Experience our 34-year legacy of compassionate care. Our trauma and emergency experts are available 24/7.
+            Experience our 35-year legacy of compassionate care. Our trauma and emergency experts are available 24/7.
           </p>
           <Link 
             href="/" 

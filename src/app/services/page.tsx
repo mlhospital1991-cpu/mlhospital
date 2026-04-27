@@ -88,7 +88,7 @@ const mainServices = [
     icon: Baby,
     title: "Maternity & Gynecology",
     description:
-      "Compassionate women's healthcare from prenatal care to complex gynecological surgeries with 34+ years of expertise.",
+      "Compassionate women's healthcare from prenatal care to complex gynecological surgeries with 35+ years of expertise.",
     color: "bg-pink-500",
     shadow: "shadow-pink-500/20",
     highlights: [
@@ -112,64 +112,71 @@ const mainServices = [
       "Advanced Ambulance Support",
     ],
   },
-  {
-    icon: HeartPulse,
-    title: "Critical Care (ICU)",
-    description:
-      "Advanced life-support monitoring for complex medical and surgical patients, led by dedicated intensivists.",
-    color: "bg-rose-500",
-    shadow: "shadow-rose-500/20",
-    highlights: [
-      "24/7 Intensivist Coverage",
-      "Ventilator Support Systems",
-      "Post-Surgical Critical Care",
-      "Multi-Organ Failure Support",
-    ],
-  },
 ];
 
 const supportServices = [
   {
-    icon: Microscope,
-    title: "Advanced Diagnostics",
+    icon: Ambulance,
+    title: "24/7 Emergency",
     description:
-      "Modern laboratory and imaging services for accurate and timely health assessments.",
-    color: "bg-indigo-600",
-  },
-  {
-    icon: Pill,
-    title: "In-House Pharmacy",
-    description:
-      "Quick and reliable access to essential medications and medical supplies onsite.",
-    color: "bg-emerald-500",
-  },
-  {
-    icon: Stethoscope,
-    title: "General Medicine",
-    description:
-      "Expert consultation for a wide range of medical conditions and preventive health checkups.",
-    color: "bg-teal-500",
-  },
-  {
-    icon: Syringe,
-    title: "Vaccination & Immunization",
-    description:
-      "Complete vaccination programs for children and adults following national immunization schedules.",
-    color: "bg-amber-500",
+      "Immediate medical response for trauma and critical conditions available round the clock.",
+    color: "bg-red-500",
   },
   {
     icon: Eye,
     title: "Physiotherapy",
     description:
-      "Rehabilitation programs for post-surgery recovery, sports injuries, and chronic pain management.",
+      "Advanced rehabilitation programs for post-surgery recovery and chronic pain management.",
     color: "bg-cyan-600",
   },
   {
-    icon: ShieldCheck,
-    title: "Health Checkup Packages",
+    icon: Pill,
+    title: "In-House Pharmacy",
     description:
-      "Comprehensive annual health screening packages designed for early detection and prevention.",
-    color: "bg-lime-600",
+      "24/7 access to essential medications and medical supplies located within the hospital.",
+    color: "bg-emerald-500",
+  },
+  {
+    icon: Scissors,
+    title: "Modular Operation Theatre",
+    description:
+      "State-of-the-art infection-controlled surgical suites equipped with modern medical technology.",
+    color: "bg-indigo-600",
+  },
+  {
+    icon: Flame,
+    title: "Exclusive Burns Theatre",
+    description:
+      "Specialized surgical facility dedicated specifically for burn surgeries and reconstruction.",
+    color: "bg-orange-500",
+  },
+  {
+    icon: Zap,
+    title: "400 mah X-Ray Machine",
+    description:
+      "High-precision digital imaging for accurate diagnostic assessment and fracture management.",
+    color: "bg-blue-600",
+  },
+  {
+    icon: Activity,
+    title: "Flat Panel C-Arm",
+    description:
+      "Intra-operative real-time imaging for precision during orthopedic and spinal surgeries.",
+    color: "bg-teal-600",
+  },
+  {
+    icon: Microscope,
+    title: "Advanced Diagnostics",
+    description:
+      "Comprehensive laboratory and imaging services for accurate health assessments.",
+    color: "bg-violet-600",
+  },
+  {
+    icon: Baby,
+    title: "Infertility Services",
+    description:
+      "Specialized evaluation and treatment options for couples seeking fertility support.",
+    color: "bg-pink-500",
   },
 ];
 
@@ -213,7 +220,7 @@ export default function ServicesPage() {
             From emergency trauma response to specialized surgeries,
             M&nbsp;L&nbsp;Hospital has been providing a full spectrum of
             world-class medical facilities to Nagercoil and surrounding regions
-            for over 34&nbsp;years.
+            for over 35&nbsp;years.
           </motion.p>
         </div>
       </section>
@@ -249,7 +256,17 @@ export default function ServicesPage() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.08 }}
+                transition={{ 
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 20,
+                  delay: index * 0.08 
+                }}
+                whileHover={{ 
+                  scale: 1.015, 
+                  y: -5,
+                  transition: { type: "spring", stiffness: 300, damping: 15 }
+                }}
                 className="bg-white p-8 md:p-10 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-brand-teal/5 transition-all duration-500 group relative overflow-hidden"
               >
                 <div className="absolute top-0 right-0 w-40 h-40 bg-slate-50 rounded-full -mr-20 -mt-20 transition-transform duration-500 group-hover:scale-125" />

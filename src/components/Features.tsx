@@ -2,24 +2,30 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Clock, Shield, Users, HeartPulse, Activity } from "lucide-react";
+import { Clock, Baby, Users, HeartPulse, Activity } from "lucide-react";
 
 const stats = [
   {
     icon: Clock,
-    value: "34+",
+    value: "35+",
     label: "Years of Excellence",
     color: "bg-blue-50 text-blue-500",
   },
   {
     icon: Activity,
-    value: "10,000+",
-    label: "Total Surgeries",
+    value: "40,000+",
+    label: "Major Surgeries",
     color: "bg-cyan-50 text-cyan-500",
   },
   {
-    icon: HeartPulse,
-    value: "50,000+",
+    icon: Baby,
+    value: "20,000+",
+    label: "Deliveries",
+    color: "bg-pink-50 text-pink-500",
+  },
+  {
+    icon: Users,
+    value: "7 Lakh+",
     label: "Patients Served",
     color: "bg-indigo-50 text-indigo-500",
   },
@@ -35,7 +41,7 @@ const Features = () => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, index) => (
             <motion.div
               key={index}
@@ -46,9 +52,9 @@ const Features = () => {
               className="bg-slate-50/50 border border-slate-100 p-10 rounded-[40px] text-center hover:bg-white hover:shadow-2xl hover:shadow-slate-200/50 transition-all group"
             >
               <div className={`mx-auto mb-8 transition-all duration-500 relative flex items-center justify-center h-24 ${
-                stat.label === "Total Surgeries" ? "w-full bg-brand-teal/5 rounded-3xl" : "w-16 h-16 rounded-full " + stat.color
+                stat.label === "Major Surgeries" ? "w-full bg-brand-teal/5 rounded-3xl" : "w-16 h-16 rounded-full " + stat.color
               }`}>
-                {stat.label === "Total Surgeries" ? (
+                {stat.label === "Major Surgeries" ? (
                   <div className="relative w-full h-full flex items-center overflow-hidden bg-brand-teal/[0.02]">
                     <div className="relative w-full h-12 flex items-center justify-center px-8">
                       <svg className="w-full h-full text-brand-teal" viewBox="0 0 400 50" preserveAspectRatio="none">
@@ -88,9 +94,6 @@ const Features = () => {
                         }}
                       />
                     </div>
-                    
-                    {/* Overlay Grid */}
-                    <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '15px 15px' }} />
                   </div>
                 ) : (
                   <stat.icon size={28} className="group-hover:scale-110 transition-transform duration-500" />

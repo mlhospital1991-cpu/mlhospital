@@ -53,7 +53,7 @@ const services = [
   {
     icon: HeartPulse,
     title: "Maternity & Gynecology",
-    description: "Comprehensive women's healthcare and maternity services with 34+ years of expertise.",
+    description: "Compassionate women's healthcare from prenatal care to complex gynecological surgeries with 35+ years of expertise.",
     color: "bg-pink-500",
     shadow: "shadow-pink-500/20",
     href: "/services#maternity"
@@ -102,7 +102,7 @@ const Services = () => {
             transition={{ delay: 0.2 }}
             className="text-base text-slate-600 leading-relaxed font-medium"
           >
-            From emergency response to specialized surgeries, M L Hospital provides a full spectrum of world-class medical facilities tailored for Nagercoil.
+            Providing world-class medical facilities and compassionate care to Nagercoil for over 35 years. Specialized in trauma, burns, and advanced surgeries.
           </motion.p>
         </div>
 
@@ -114,8 +114,17 @@ const Services = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ y: -8 }}
+              transition={{ 
+                type: "spring",
+                stiffness: 100,
+                damping: 20,
+                delay: index * 0.1 
+              }}
+              whileHover={{ 
+                scale: 1.02, 
+                y: -5,
+                transition: { type: "spring", stiffness: 300, damping: 15 }
+              }}
               className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-brand-teal/5 transition-all duration-500 group relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full -mr-16 -mt-16 transition-transform duration-500 group-hover:scale-110" />
@@ -154,7 +163,7 @@ const Services = () => {
           <div className="relative z-10 max-w-2xl mx-auto">
             <h3 className="text-3xl md:text-4xl font-bold mb-6">Need Emergency Assistance?</h3>
             <p className="text-slate-300 mb-10 text-base font-medium">
-              Our emergency department is open 24/7. Contact us immediately for any critical care requirements.
+              Serving the community for over 35&nbsp;years. Our emergency department is open 24/7. Contact us immediately for any critical care requirements.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-5">
               <a 
