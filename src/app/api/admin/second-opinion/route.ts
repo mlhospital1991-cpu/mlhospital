@@ -13,11 +13,3 @@ export async function GET() {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
-
-export async function PATCH(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
-  // This route should be in [id]/route.ts, but I'll make a unified one for now or just the main one
-  return NextResponse.json({ error: "Use [id] route" }, { status: 400 });
-}
