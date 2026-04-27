@@ -59,14 +59,6 @@ const services = [
     href: "/services#maternity"
   },
   {
-    icon: Activity, 
-    title: "24/7 Emergency",
-    description: "Immediate medical response for trauma and critical conditions, available round the clock.",
-    color: "bg-red-500",
-    shadow: "shadow-red-500/20",
-    href: "/services#emergency"
-  },
-  {
     icon: Stethoscope,
     title: "FREE Second Opinion",
     description: "Get expert advice and diagnosis review from our senior specialists at zero cost.",
