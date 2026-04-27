@@ -1,6 +1,6 @@
 import { getSession } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import AdminDashboard from "@/components/admin/AdminDashboard";
+import AdminDashboard, { UserProfile } from "@/components/admin/AdminDashboard";
 import AdminLoginForm from "@/components/admin/AdminLoginForm";
 
 export default async function AdminPage() {
@@ -47,11 +47,11 @@ export default async function AdminPage() {
     console.error("Failed to parse permissions:", e);
   }
 
-  const userProfile = {
-    id: session.id,
-    username: session.username,
-    role: session.role,
-    name: session.name,
+  const userProfile: UserProfile = {
+    id: String(session.id),
+    username: String(session.username),
+    role: String(session.role),
+    name: String(session.name),
     permissions: currentPermissions
   };
 

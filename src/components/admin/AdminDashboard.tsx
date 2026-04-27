@@ -45,7 +45,7 @@ interface Appointment {
   createdAt: string;
 }
 
-interface UserProfile {
+export interface UserProfile {
   id: string;
   username: string;
   role: string;
