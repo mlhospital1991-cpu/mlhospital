@@ -29,7 +29,8 @@ import UserManagement from "@/components/admin/UserManagement";
 import ReviewManagement from "@/components/admin/ReviewManagement";
 import DoctorManagement from "@/components/admin/DoctorManagement";
 import GalleryManagement from "@/components/admin/GalleryManagement";
-import { ImageIcon } from "lucide-react";
+import SecondOpinionManagement from "@/components/admin/SecondOpinionManagement";
+import { ImageIcon, FileText as FileIcon } from "lucide-react";
 
 
 interface Appointment {
@@ -60,12 +61,13 @@ interface AdminDashboardProps {
     reviews: any[];
     users: UserProfile[];
     gallery: any[];
+    secondOpinions: any[];
   };
   userProfile: UserProfile;
 }
 
 export default function AdminDashboard({ initialData, userProfile }: AdminDashboardProps) {
-  const [activeTab, setActiveTab] = useState<"dashboard" | "users" | "reviews" | "doctors" | "gallery">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "users" | "reviews" | "doctors" | "gallery" | "second-opinion">("dashboard");
   const [appointments, setAppointments] = useState<Appointment[]>(initialData.appointments);
   const [loading, setLoading] = useState(false);
   const [lastRefreshed, setLastRefreshed] = useState<Date>(new Date());
@@ -210,6 +212,15 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
               >
                 <ImageIcon size={14} />
                 Gallery
+              </button>
+              <button 
+                onClick={() => setActiveTab("second-opinion")}
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                  activeTab === "second-opinion" ? "bg-white text-brand-blue-deep shadow-sm" : "text-slate-400 hover:text-slate-600"
+                }`}
+              >
+                <FileIcon size={14} />
+                Opinions
               </button>
               {hasPermission("manage_users") && (
                 <button 
@@ -401,6 +412,10 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
           ) : activeTab === "gallery" ? (
             <motion.div key="gallery" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
               <GalleryManagement initialImages={initialData.gallery} />
+            </motion.div>
+          ) : activeTab === "second-opinion" ? (
+            <motion.div key="second-opinion" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
+              <SecondOpinionManagement initialRequests={initialData.secondOpinions} />
             </motion.div>
           ) : (
             <motion.div key="users" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>

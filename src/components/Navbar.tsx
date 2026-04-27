@@ -13,7 +13,7 @@ const navLinks = [
   { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
   { name: "Insurance", href: "/insurance" },
-  { name: "Second Opinion", href: "/second-opinion" },
+  { name: "Second Opinion", href: "/second-opinion", isFree: true },
   { name: "About", href: "/about" },
   { name: "Doctors", href: "/#doctors" },
   { name: "Gallery", href: "/gallery" },
@@ -63,13 +63,18 @@ const Navbar = () => {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`px-3 py-2 rounded-xl text-[12px] font-black uppercase tracking-wider transition-all whitespace-nowrap ${
+                  className={`px-3 py-2 rounded-xl text-[12px] font-black uppercase tracking-wider transition-all whitespace-nowrap flex items-center gap-1.5 ${
                     isActive 
                       ? "text-brand-teal bg-brand-teal/5" 
                       : "text-slate-600 hover:text-brand-teal hover:bg-slate-50"
                   }`}
                 >
                   {link.name}
+                  {link.isFree && (
+                    <span className="px-1.5 py-0.5 rounded-md bg-[#FF9900] text-[8px] font-black text-white uppercase tracking-tighter animate-bounce shadow-[0_0_10px_rgba(255,153,0,0.5)]">
+                      Free
+                    </span>
+                  )}
                 </Link>
               );
             })}
@@ -131,7 +136,14 @@ const Navbar = () => {
                   className="flex items-center justify-between text-slate-700 hover:text-brand-teal transition-colors text-lg font-bold py-3 border-b border-slate-50 last:border-0"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {link.name}
+                  <div className="flex items-center gap-3">
+                    {link.name}
+                    {link.isFree && (
+                      <span className="px-2 py-0.5 rounded-lg bg-[#FF9900] text-[10px] font-black text-white uppercase tracking-widest animate-pulse shadow-[0_0_12px_rgba(255,153,0,0.6)]">
+                        Free
+                      </span>
+                    )}
+                  </div>
                   <ChevronRight size={18} className="text-slate-300" />
                 </Link>
               ))}

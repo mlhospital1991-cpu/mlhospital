@@ -6,6 +6,8 @@ import Services from "@/components/Services";
 import { RefreshCw } from "lucide-react";
 import prisma from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   // Safety check for generated client sync
   if (!(prisma as any).doctor || !(prisma as any).review) {

@@ -11,12 +11,13 @@ export default async function AdminPage() {
   }
 
   // Fetch ALL initial data on the server for instant loading
-  const [appointments, doctors, reviews, users, gallery] = await Promise.all([
+  const [appointments, doctors, reviews, users, gallery, secondOpinions] = await Promise.all([
     prisma.appointment.findMany({ orderBy: { createdAt: "desc" }, take: 100 }),
     prisma.doctor.findMany({ orderBy: { order: "asc" } }),
     prisma.review.findMany({ orderBy: { createdAt: "desc" } }),
     prisma.user.findMany({ orderBy: { createdAt: "desc" } }),
-    prisma.galleryImage.findMany({ orderBy: { order: "asc" } })
+    prisma.galleryImage.findMany({ orderBy: { order: "asc" } }),
+    prisma.secondOpinion.findMany({ orderBy: { createdAt: "desc" } })
   ]);
 
   // Convert to plain objects and map permissions correctly
@@ -28,7 +29,8 @@ export default async function AdminPage() {
       ...u,
       permissions: typeof u.permissions === 'string' ? JSON.parse(u.permissions) : u.permissions
     })),
-    gallery
+    gallery,
+    secondOpinions
   }));
   
   // Parse permissions for the current session user

@@ -14,8 +14,13 @@ export default function SecondOpinionPage() {
       
       <div className="pt-32 pb-20 px-4">
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <div className="inline-block px-4 py-1 bg-brand-teal/10 text-brand-teal rounded-full text-[10px] font-bold uppercase tracking-[0.2em] mb-6">
-            Expert Review
+          <div className="flex flex-col md:flex-row items-center justify-center gap-3 mb-8">
+            <div className="inline-block px-4 py-1.5 bg-brand-teal text-white rounded-full text-[10px] font-black uppercase tracking-[0.25em] shadow-lg shadow-brand-teal/20 animate-pulse">
+              Free Service
+            </div>
+            <div className="inline-block px-4 py-1.5 bg-brand-blue-deep/5 text-brand-blue-deep rounded-full text-[10px] font-black uppercase tracking-[0.25em]">
+              Expert Specialist Review
+            </div>
           </div>
           <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mb-6 tracking-tight">
             Get a <span className="text-brand-teal">Second Opinion</span> for Free

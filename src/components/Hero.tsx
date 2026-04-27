@@ -90,10 +90,10 @@ const Hero = () => {
               whileHover={{ y: -2, backgroundColor: "rgba(0,185,241,0.1)" }}
               whileTap={{ scale: 0.98 }}
               href="/second-opinion"
-              className="flex items-center justify-center gap-2.5 bg-white/5 backdrop-blur-md border border-brand-teal/40 hover:border-brand-teal text-white px-8 py-4.5 rounded-2xl font-bold text-base transition-all"
+              className="flex items-center justify-center gap-2.5 bg-white/5 backdrop-blur-md border border-brand-teal/40 hover:border-brand-teal text-white px-8 py-4.5 rounded-2xl font-bold text-base transition-all group"
             >
               <Stethoscope size={20} className="text-brand-teal" />
-              Get Second Opinion
+              Get <span className="text-[#FF9900] font-black mx-1 animate-pulse drop-shadow-[0_0_8px_rgba(255,153,0,0.4)]">FREE</span> Second Opinion
             </motion.a>
 
             <motion.a

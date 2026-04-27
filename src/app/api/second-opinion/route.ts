@@ -18,11 +18,18 @@ export async function POST(request: Request) {
     const files = formData.getAll("reports") as File[];
     const reportUrls: string[] = [];
     
-    // In a real app, you would upload these to S3/Cloudinary/Vercel Blob
-    // For now, we'll just store the filenames to simulate success
     for (const file of files) {
       if (file && file.size > 0) {
-        reportUrls.push(`uploaded_${Date.now()}_${file.name}`);
+        const bytes = await file.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+        
+        const filename = `${Date.now()}-${file.name.replace(/\s+/g, "-")}`;
+        const path = require("path").join(process.cwd(), "public", "reports", filename);
+        
+        const fs = require("fs/promises");
+        await fs.writeFile(path, buffer);
+        
+        reportUrls.push(`/reports/${filename}`);
       }
     }
 

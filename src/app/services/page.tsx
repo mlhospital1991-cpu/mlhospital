@@ -231,6 +231,7 @@ export default function ServicesPage() {
             {mainServices.map((service, index) => (
               <motion.div
                 key={service.title}
+                id={service.title.toLowerCase().includes('ortho') ? 'ortho' : service.title.toLowerCase().includes('burn') ? 'burns' : service.title.toLowerCase().includes('plastic') ? 'plastic' : service.title.toLowerCase().includes('maternity') ? 'maternity' : service.title.toLowerCase().includes('emergency') ? 'emergency' : service.title.toLowerCase().includes('icu') ? 'icu' : ''}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import EmergencyModal from "./EmergencyModal";
 import { 
@@ -21,42 +22,56 @@ const services = [
     title: "Orthopedic Surgery",
     description: "Expert joint replacement and spinal care specialized for mobility and long-term health.",
     color: "bg-[#00baf2]", // Paytm Sky Blue
-    shadow: "shadow-sky-500/20"
+    shadow: "shadow-sky-500/20",
+    href: "/services#ortho"
   },
   {
     icon: Flame,
     title: "Advanced Burn Care",
     description: "State-of-the-art treatment for burn injuries with a focus on recovery and reconstruction.",
     color: "bg-orange-500",
-    shadow: "shadow-orange-500/20"
+    shadow: "shadow-orange-500/20",
+    href: "/services#burns"
   },
   {
     icon: Activity, // Using Activity for heartbeat look in red box
     title: "24/7 Emergency",
     description: "Immediate medical response for trauma and critical conditions, available round the clock.",
     color: "bg-red-500",
-    shadow: "shadow-red-500/20"
+    shadow: "shadow-red-500/20",
+    href: "/services#emergency"
   },
   {
     icon: HeartPulse,
     title: "Critical Care (ICU)",
     description: "Highly specialized intensive care monitoring for complex medical and surgical patients.",
     color: "bg-rose-500",
-    shadow: "shadow-rose-500/20"
+    shadow: "shadow-rose-500/20",
+    href: "/services#icu"
   },
   {
     icon: Microscope,
     title: "Advanced Diagnostics",
     description: "Modern laboratory and imaging services for accurate and timely health assessments.",
     color: "bg-indigo-600",
-    shadow: "shadow-indigo-500/20"
+    shadow: "shadow-indigo-500/20",
+    href: "/services"
   },
   {
     icon: Pill,
     title: "In-House Pharmacy",
     description: "Quick and reliable access to essential medications and medical supplies onsite.",
     color: "bg-emerald-500",
-    shadow: "shadow-emerald-500/20"
+    shadow: "shadow-emerald-500/20",
+    href: "/services"
+  },
+  {
+    icon: Stethoscope,
+    title: "FREE Second Opinion",
+    description: "Get expert advice and diagnosis review from our senior specialists at zero cost.",
+    color: "bg-brand-teal",
+    shadow: "shadow-brand-teal/20",
+    href: "/second-opinion"
   }
 ];
 
@@ -121,10 +136,13 @@ const Services = () => {
                 {service.description}
               </p>
 
-              <div className="relative z-10 flex items-center gap-2 text-brand-teal font-bold text-[11px] uppercase tracking-widest cursor-pointer hover:gap-3 transition-all duration-300">
+              <Link 
+                href={service.href}
+                className="relative z-10 flex items-center gap-2 text-brand-teal font-bold text-[11px] uppercase tracking-widest cursor-pointer hover:gap-3 transition-all duration-300 w-fit"
+              >
                 Explore Service
                 <ChevronRight size={16} />
-              </div>
+              </Link>
             </motion.div>
           ))}
         </div>
