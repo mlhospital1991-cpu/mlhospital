@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       username: user.username,
       name: user.name,
       role: user.role,
-      permissions: JSON.parse(user.permissions || "[]"),
+      permissions: user.permissions?.startsWith("[") ? JSON.parse(user.permissions) : (user.permissions?.split(",") || []),
     });
     console.log("Token created");
 
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
         username: user.username,
         name: user.name,
         role: user.role,
-        permissions: JSON.parse(user.permissions || "[]"),
+        permissions: user.permissions?.startsWith("[") ? JSON.parse(user.permissions) : (user.permissions?.split(",") || []),
       },
     });
   } catch (error: any) {

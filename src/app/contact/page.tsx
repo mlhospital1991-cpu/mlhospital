@@ -54,8 +54,8 @@ const contactInfo = [
 ];
 
 const timings = [
-  { day: "Monday – Saturday", time: "8:00 AM – 8:00 PM", highlight: false },
-  { day: "Sunday", time: "9:00 AM – 1:00 PM", highlight: false },
+  { day: "Morning Session", time: "9:30 AM – 2:30 PM", highlight: false },
+  { day: "Evening Session", time: "6:00 PM – 9:30 PM", highlight: false },
   { day: "Emergency / ICU", time: "24 Hours / 7 Days", highlight: true },
 ];
 
@@ -199,7 +199,7 @@ export default function ContactPage() {
                     <Clock size={20} className="text-brand-teal" />
                   </div>
                   <h3 className="text-lg font-bold text-slate-900">
-                    Operating Hours
+                    Out-patient Timings
                   </h3>
                 </div>
                 <div className="space-y-4">

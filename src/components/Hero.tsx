@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { MessageSquare, Phone, Star, Navigation } from "lucide-react";
+import { MessageSquare, Phone, Star, Navigation, Stethoscope } from "lucide-react";
 import { useState } from "react";
 import EmergencyModal from "./EmergencyModal";
 import AppointmentModal from "./AppointmentModal";
@@ -65,8 +65,9 @@ const Hero = () => {
           </div>
 
           <h1 className="text-4xl md:text-6xl font-bold text-white leading-[1.1] mb-6 [text-shadow:_0_4px_8px_rgba(0,0,0,0.3)]">
+            <span className="text-brand-teal">M L Hospital</span> <br />
             24/7 Emergency <br />
-            <span className="text-brand-teal">Trauma Care Hospital</span><br />
+            Trauma Care Center <br />
             <span className="text-xl md:text-3xl font-bold text-slate-100 italic [text-shadow:_0_2px_4px_rgba(0,0,0,0.4)]">in Nagercoil, Tamil Nadu</span>
           </h1>
 
@@ -74,7 +75,7 @@ const Hero = () => {
             Immediate treatment for accidents, fractures, spine injuries, and critical trauma care. Our expert team is ready to respond instantly.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 mb-14">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-4 mb-14">
             <motion.button
               whileHover={{ y: -2, scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -86,13 +87,23 @@ const Hero = () => {
             </motion.button>
 
             <motion.a
+              whileHover={{ y: -2, backgroundColor: "rgba(0,185,241,0.1)" }}
+              whileTap={{ scale: 0.98 }}
+              href="/second-opinion"
+              className="flex items-center justify-center gap-2.5 bg-white/5 backdrop-blur-md border border-brand-teal/40 hover:border-brand-teal text-white px-8 py-4.5 rounded-2xl font-bold text-base transition-all"
+            >
+              <Stethoscope size={20} className="text-brand-teal" />
+              Get Second Opinion
+            </motion.a>
+
+            <motion.a
               whileHover={{ y: -2, backgroundColor: "rgba(255,255,255,0.1)" }}
               whileTap={{ scale: 0.98 }}
               href={`tel:${callNumber}`}
               className="flex items-center justify-center gap-2.5 bg-white/5 backdrop-blur-md border border-white/20 hover:border-white text-white px-8 py-4.5 rounded-2xl font-bold text-base transition-all"
             >
               <Phone size={20} className="text-brand-teal" />
-              Call Emergency Now
+              Call Emergency
             </motion.a>
 
             <motion.a

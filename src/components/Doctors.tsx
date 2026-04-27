@@ -3,66 +3,37 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Phone, MessageSquare, Award, CheckCircle2 } from "lucide-react";
+import { Phone, MessageSquare, Award, CheckCircle2, AlertCircle } from "lucide-react";
 import EmergencyModal from "./EmergencyModal";
 import AppointmentModal from "./AppointmentModal";
 
-const doctors = [
-  {
-    id: 1,
-    name: "Dr. S. Manimekalai",
-    specialty: "Founder, Gynaecologist",
-    qualification: "MBBS, DGO",
-    experience: "34+ Years of Excellence",
-    image: "/doctors/dr-manimekalai.jpg",
-    tags: ["Maternity", "Gynaecology", "General Surgery"]
-  },
-  {
-    id: 2,
-    name: "Dr. M. Radhakrishnan",
-    specialty: "Co-Founder, Plastic Surgeon",
-    qualification: "MBBS, MS, MCh (Plastic Surgery)",
-    experience: "Trauma & Reconstructive Expert",
-    image: "/doctors/dr-radhakrishnan.jpg",
-    tags: ["Plastic Surgery", "Burns Care", "Trauma"]
-  },
-  {
-    id: 3,
-    name: "Dr. R. Aravind",
-    specialty: "Consultant Orthopedic Surgeon",
-    qualification: "MBBS, MS (Ortho)",
-    experience: "Fracture & Spine Specialist",
-    image: "/doctors/dr-aravind.jpg",
-    tags: ["Orthopaedics", "Trauma Surgery", "Fracture Care"]
-  },
-  {
-    id: 4,
-    name: "Dr. Keerthana",
-    specialty: "Medical Specialist",
-    qualification: "MBBS",
-    experience: "Emergency & Critical Care",
-    image: "/doctors/dr-keerthana.jpg",
-    tags: ["Internal Medicine", "Specialist Care"]
-  },
-  {
-    id: 5,
-    name: "Dr. Aarthy",
-    specialty: "Medical Specialist",
-    qualification: "MBBS",
-    experience: "Primary & Emergency Care",
-    image: "/doctors/dr-aarthy.jpg",
-    tags: ["Medical Specialist", "Emergency Care"]
-  }
-];
+interface Doctor {
+  id: string;
+  name: string;
+  specialty: string;
+  qualification: string;
+  experience: string;
+  image: string;
+  tags: string[];
+  whatsapp: string;
+  isAvailable: boolean;
+  showOnHome: boolean;
+}
 
-const Doctors = () => {
+const Doctors = ({ doctors }: { doctors: Doctor[] }) => {
   const [isEmergencyModalOpen, setIsEmergencyModalOpen] = useState(false);
   const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
-  const whatsappNumber = "918885553193";
+  const [selectedDoctorWhatsapp, setSelectedDoctorWhatsapp] = useState("918885553193");
+  
+  const centralNumber = "918885553193";
+
+  // Filter out doctors that shouldn't be shown on home
+  const displayDoctors = doctors.filter(d => d.showOnHome);
+
+  if (displayDoctors.length === 0) return null;
 
   return (
     <section className="py-24 bg-white" id="doctors">
-      {/* ... (header and grid) */}
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
@@ -97,15 +68,22 @@ const Doctors = () => {
 
         {/* Doctors Grid */}
         <div className="flex flex-wrap justify-center gap-8 md:gap-10">
-          {doctors.map((doctor, index) => (
+          {displayDoctors.map((doctor, index) => (
             <motion.div
               key={doctor.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="group bg-slate-50/50 rounded-[40px] overflow-hidden border border-slate-100 hover:shadow-2xl hover:shadow-brand-teal/5 transition-all duration-500 w-full sm:w-[calc(50%-20px)] lg:w-[calc(33.333%-27px)] max-w-[400px] flex flex-col"
+              className="group bg-slate-50/50 rounded-[40px] overflow-hidden border border-slate-100 hover:shadow-2xl hover:shadow-brand-teal/5 transition-all duration-500 w-full sm:w-[calc(50%-20px)] lg:w-[calc(33.333%-27px)] max-w-[400px] flex flex-col relative"
             >
+              {/* Availability Badge */}
+              <div className={`absolute top-6 right-6 z-20 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest shadow-lg backdrop-blur-md ${
+                doctor.isAvailable ? "bg-green-500/90 text-white" : "bg-rose-500/90 text-white"
+              }`}>
+                {doctor.isAvailable ? "Available Today" : "Away / In Surgery"}
+              </div>
+
               {/* Doctor Image */}
               <div className="relative h-96 w-full overflow-hidden bg-slate-200">
                 <Image
@@ -113,15 +91,15 @@ const Doctors = () => {
                   alt={doctor.name}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover object-top transition-transform duration-700"
+                  className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-deep/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-deep/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
 
               {/* Doctor Info */}
               <div className="p-8 flex flex-col flex-1">
                 <div className="mb-6">
-                  <h3 className="text-xl font-bold text-slate-900 mb-1">{doctor.name}</h3>
+                  <h3 className="text-xl font-bold text-slate-900 mb-1 group-hover:text-brand-teal transition-colors">{doctor.name}</h3>
                   <p className="text-brand-teal font-bold text-[11px] uppercase tracking-widest mb-3">{doctor.specialty}</p>
                   <p className="text-slate-500 text-[13px] font-semibold line-clamp-1">{doctor.qualification}</p>
                 </div>
@@ -143,11 +121,19 @@ const Doctors = () => {
                    </div>
                    
                    <button
-                    onClick={() => setIsEmergencyModalOpen(true)}
-                    className="flex items-center justify-center gap-2 w-full bg-brand-teal text-white py-4 rounded-2xl font-bold text-sm transition-all shadow-lg shadow-brand-teal/10 hover:brightness-110"
+                    onClick={() => {
+                      setSelectedDoctorWhatsapp(doctor.whatsapp || centralNumber);
+                      setIsEmergencyModalOpen(true);
+                    }}
+                    className={`flex items-center justify-center gap-2 w-full py-4 rounded-2xl font-bold text-sm transition-all shadow-lg ${
+                      doctor.isAvailable 
+                        ? "bg-brand-teal text-white shadow-brand-teal/10 hover:brightness-110" 
+                        : "bg-slate-200 text-slate-500 cursor-not-allowed"
+                    }`}
+                    disabled={!doctor.isAvailable}
                   >
-                    <MessageSquare size={16} />
-                    Emergency Appointment
+                    {doctor.isAvailable ? <MessageSquare size={16} /> : <AlertCircle size={16} />}
+                    {doctor.isAvailable ? "Contact Doctor" : "Doctor Unavailable"}
                    </button>
                 </div>
               </div>
@@ -165,7 +151,10 @@ const Doctors = () => {
         >
           <div className="inline-block p-1.5 rounded-[32px] bg-gradient-to-r from-brand-teal/20 to-brand-blue-deep/20">
             <button
-              onClick={() => setIsAppointmentModalOpen(true)}
+              onClick={() => {
+                setSelectedDoctorWhatsapp(centralNumber);
+                setIsAppointmentModalOpen(true);
+              }}
               className="flex items-center gap-4 bg-brand-blue-deep text-white px-12 py-5 rounded-[26px] font-bold text-lg hover:brightness-110 transition-all shadow-2xl shadow-brand-blue-deep/20 group"
             >
               <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
@@ -182,12 +171,12 @@ const Doctors = () => {
       <EmergencyModal 
         isOpen={isEmergencyModalOpen}
         onClose={() => setIsEmergencyModalOpen(false)}
-        whatsappNumber={whatsappNumber}
+        whatsappNumber={selectedDoctorWhatsapp}
       />
       <AppointmentModal
         isOpen={isAppointmentModalOpen}
         onClose={() => setIsAppointmentModalOpen(false)}
-        centralNumber={whatsappNumber}
+        centralNumber={centralNumber}
       />
     </section>
   );

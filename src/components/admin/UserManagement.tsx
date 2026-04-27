@@ -31,9 +31,13 @@ const AVAILABLE_PERMISSIONS = [
 
 const ROLES = ["ADMIN", "DOCTOR", "NURSE"];
 
-export default function UserManagement() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
+interface UserManagementProps {
+  initialUsers?: User[];
+}
+
+export default function UserManagement({ initialUsers = [] }: UserManagementProps) {
+  const [users, setUsers] = useState<User[]>(initialUsers);
+  const [loading, setLoading] = useState(initialUsers.length === 0);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   
@@ -87,10 +91,15 @@ export default function UserManagement() {
 
   const handleUpdatePermissions = async (userId: string, permissionId: string, currentPermissions: string[]) => {
     let newPermissions: string[];
-    if (currentPermissions.includes(permissionId)) {
-      newPermissions = currentPermissions.filter(p => p !== permissionId);
+    
+    if (permissionId === "all") {
+      newPermissions = currentPermissions; // The 'currentPermissions' param will actually be the target array in this case
     } else {
-      newPermissions = [...currentPermissions, permissionId];
+      if (currentPermissions.includes(permissionId)) {
+        newPermissions = currentPermissions.filter(p => p !== permissionId);
+      } else {
+        newPermissions = [...currentPermissions, permissionId];
+      }
     }
 
     try {
@@ -194,7 +203,19 @@ export default function UserManagement() {
                     </select>
                   </td>
                   <td className="p-8">
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 items-center">
+                      <button
+                        onClick={() => {
+                          const allPerms = AVAILABLE_PERMISSIONS.map(p => p.id);
+                          const isAllSet = allPerms.every(p => user.permissions.includes(p));
+                          const newPerms = isAllSet ? [] : allPerms;
+                          handleUpdatePermissions(user.id, "all", newPerms);
+                        }}
+                        className="px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-tight bg-brand-blue-deep text-white shadow-lg shadow-brand-blue-deep/10 hover:brightness-110 transition-all"
+                      >
+                        {AVAILABLE_PERMISSIONS.map(p => p.id).every(p => user.permissions.includes(p)) ? "Revoke All" : "Grant All"}
+                      </button>
+                      <div className="w-px h-4 bg-slate-100 mx-1" />
                       {AVAILABLE_PERMISSIONS.map(perm => (
                         <button
                           key={perm.id}

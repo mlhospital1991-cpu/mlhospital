@@ -8,11 +8,41 @@ import { ArrowLeft, Home, Award, Heart, Shield, Users, Globe, History, Activity 
 
 export default function AboutPage() {
   const coreTeam = [
-    { name: "Dr. S. Manimekalai", role: "Founder, Gynaecologist", image: "/doctors/Dr Manimekalai.jpeg" },
-    { name: "Dr. M. Radhakrishnan", role: "Co-Founder, Plastic Surgeon", image: "/doctors/Dr Radhakrishnan.jpeg" },
-    { name: "Dr. R. Aravind", role: "Consultant Orthopedic Surgeon", image: "/doctors/Dr Aravind.jpeg" },
-    { name: "Dr. Keerthana", role: "Medical Specialist", image: "/doctors/Dr Keerthana.jpeg" },
-    { name: "Dr. Aarthy", role: "Medical Specialist", image: "/doctors/Dr Aarthy.jpeg" },
+    { 
+      name: "Dr. M. Radhakrishnan", 
+      role: "Retd. Dean Kanyakumari medical college, Consultant plastic and reconstructive surgeon", 
+      qualification: "M.S.,Mch. Plastic surgery",
+      image: "/doctors/dr-radhakrishnan.jpg",
+      tags: ["40 years of excellence", "burns specialist", "liposuction", "flap cover", "skin graft", "microssurgery", "trauma specialist"]
+    },
+    { 
+      name: "Dr. S. Manimekalai", 
+      role: "Director of ML Hospital, Consultant obstetrician and gynecologist", 
+      qualification: "M.D.,DGO",
+      image: "/doctors/dr-manimekalai.jpg",
+      tags: ["40 years of excellence", "pregnancy", "obstetrics", "gynecology", "Laparoscopy specialist"]
+    },
+    { 
+      name: "Dr. R. Keerthana", 
+      role: "Consultant gynaecologist & laparoscopic surgeon", 
+      qualification: "MS (OBG)., DNB OG,PDF( Endogynaecology)",
+      image: "/doctors/dr-keerthana.jpg",
+      tags: ["infertility specialist", "pregnancy", "laparoscopy specialist", "fertility"]
+    },
+    { 
+      name: "Dr. R. Aravind", 
+      role: "Consultant Orthopaedic surgeon", 
+      qualification: "M.S.,Ortho.",
+      image: "/doctors/dr-aravind.jpg",
+      tags: ["trauma specialist", "fracture", "spine surgery", "joint replacement", "arthroscopy", "key hole surgery", "deformity correction"]
+    },
+    { 
+      name: "Dr. B. Aarthy", 
+      role: "Consultant plastic and cosmetic surgeon", 
+      qualification: "M.S.,MCH ( plastic surgery)",
+      image: "/doctors/dr-aarthy.jpg",
+      tags: ["cosmetic surgery", "aesthetic surgery", "flap cover", "microsurgery", "trauma and reconstructive surgery"]
+    },
   ];
 
   const values = [
@@ -26,7 +56,7 @@ export default function AboutPage() {
       {/* Hero Header */}
       <section className="bg-brand-blue-deep text-white py-20 md:py-32 relative">
         <div className="absolute inset-0 opacity-15">
-          <Image src="/Hero image.jpeg" alt="ML Hospital History" fill sizes="100vw" className="object-cover grayscale" />
+          <Image src="/hero-image.jpg" alt="ML Hospital History" fill sizes="100vw" className="object-cover grayscale" />
         </div>
         {/* Paytm-style gradient glow */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-teal opacity-10 rounded-full blur-[100px] -mr-48 -mt-48" />
@@ -75,17 +105,14 @@ export default function AboutPage() {
           <div>
             <h2 className="text-3xl md:text-4xl font-bold mb-8 flex items-center gap-3">
               <div className="w-10 h-1 bg-brand-teal rounded-full" />
-              Introduction
+              Institutional Heritage
             </h2>
             <div className="space-y-6 text-slate-600 leading-[1.8] text-base md:text-lg font-medium">
               <p>
-                <span className="font-bold text-slate-900 italic">ML Hospital</span> stands proudly in this locality for over 34 years with a single aim of providing specialty services to the community and the local people. It began in <span className="text-brand-teal font-bold">1991</span> as a small dream of an aspiring medico couple, <span className="font-bold text-slate-900">Dr. S. Manimekalai</span> (Gynaecologist) and <span className="font-bold text-slate-900">Dr. M. Radhakrishnan</span> (Plastic Surgeon).
+                Our institution has been a trusted presence in the community for over <span className="text-brand-teal font-bold">34 years</span>, delivering comprehensive healthcare services with a strong emphasis on surgical care. We specialize in trauma and emergency management, ensuring rapid, coordinated, and high-quality interventions for critical cases.
               </p>
               <p>
-                Now, it renders services in all departments and focuses mainly on trauma and orthopedic care, maternity services and 24/7 emergency care. We have an elaborate burns ward with all the resources, modular operation theatre with intensive care unit and fully equipped emergency department.
-              </p>
-              <p>
-                The institution has grown over the years and provided satisfactory services during <span className="font-bold">Tsunami</span>, <span className="font-bold">Oki cyclone</span> and the <span className="font-bold">Covid era</span>. It strives for the betterment of the community by organising various camps and health education programmes.
+                Committed to providing accessible and affordable healthcare, we offer a wide range of services under one roof. Our dedicated trauma team, supported by efficient emergency ambulance services, enables us to deliver timely and effective care when it matters most.
               </p>
             </div>
           </div>
@@ -107,13 +134,14 @@ export default function AboutPage() {
                       src={doctor.image} 
                       alt={doctor.name}
                       fill
-                      sizes="64px"
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      sizes="256px"
+                      className="object-cover object-top group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
                   <div>
                     <p className="font-bold text-slate-900 text-[16px] leading-tight">{doctor.name}</p>
                     <p className="text-[12px] text-brand-teal font-bold uppercase tracking-widest mt-1.5">{doctor.role}</p>
+                    <p className="text-[11px] text-slate-400 font-bold mt-1 uppercase tracking-tighter">{doctor.qualification}</p>
                   </div>
                 </motion.div>
               ))}
@@ -130,9 +158,14 @@ export default function AboutPage() {
               <Globe size={28} />
             </div>
             <h3 className="text-2xl font-bold mb-6 text-slate-900">Our Vision</h3>
-            <p className="text-slate-500 leading-relaxed italic font-medium">
-              "To be the leading beacon of healing and hope in Nagercoil, providing specialty healthcare with unconditional compassion and world-class medical excellence for generations to come."
-            </p>
+            <div className="text-slate-500 leading-relaxed italic font-medium space-y-4">
+              <p>
+                "Our vision is to deliver comprehensive, holistic, and compassionate trauma care that addresses not only the immediate medical needs of patients but also their overall physical and emotional well-being. We aspire to create an integrated healthcare environment where advanced treatment, multidisciplinary expertise, and patient-centered care come together seamlessly under one roof."
+              </p>
+              <p>
+                "Through a commitment to clinical excellence, timely intervention, and continuous improvement, we aim to set a benchmark in trauma care by ensuring that every patient receives coordinated, efficient, and empathetic treatment from admission through recovery."
+              </p>
+            </div>
           </div>
           
           <div className="bg-white p-12 rounded-[40px] shadow-sm border border-slate-100 hover:shadow-xl transition-shadow">
@@ -141,7 +174,7 @@ export default function AboutPage() {
             </div>
             <h3 className="text-2xl font-bold mb-6 text-slate-900">Our Mission</h3>
             <p className="text-slate-500 leading-relaxed italic font-medium">
-              "To deliver rapid, specialized trauma and maternal services while actively empowering our community through health education and proactive outreach initiatives."
+              "Our mission is to deliver patient-centered care by understanding individual needs and responding with empathy and compassion. We are committed to providing timely and efficient evaluation through a structured triage system, ensuring that every patient receives prompt and appropriate management. We strive to offer the highest standards of treatment while maintaining affordability and accessibility for all."
             </p>
           </div>
         </div>

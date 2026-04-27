@@ -30,3 +30,57 @@ model User {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model SecondOpinion {
+  id               String   @id @default(cuid())
+  patientName      String
+  email            String
+  phone            String
+  age              Int?
+  gender           String?
+  symptoms         String
+  currentDiagnosis String?
+  questions        String?
+  reportUrls       String[]
+  status           String   @default("pending")
+  createdAt        DateTime @default(now())
+}
+
+model Review {
+  id           String   @id @default(cuid())
+  googleId     String   @unique
+  author       String
+  authorPhoto  String?
+  rating       Int
+  text         String
+  relativeTime String?
+  isApproved   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}
+
+model Doctor {
+  id            String   @id @default(cuid())
+  name          String
+  specialty     String
+  qualification String
+  experience    String
+  image         String
+  tags          String[]
+  whatsapp      String   @default("918885553193")
+  isAvailable   Boolean  @default(true)
+  showOnHome    Boolean  @default(true)
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model GalleryImage {
+  id         String   @id @default(cuid())
+  url        String
+  caption    String?
+  collection String   @default("General")
+  aspect     String   @default("square") // square, wide, tall
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
