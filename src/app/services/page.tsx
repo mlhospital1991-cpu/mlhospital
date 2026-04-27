@@ -29,87 +29,101 @@ import {
 
 const mainServices = [
   {
-    icon: Activity,
-    title: "Orthopedic Surgery",
+    icon: Bone,
+    title: "Ortho, Spine, Arthroscopy & Joint Replacement",
     description:
-      "Expert joint replacement, spinal care, and fracture management specialized for mobility and long-term health.",
+      "Comprehensive musculoskeletal care including advanced spinal surgeries, keyhole joint procedures, and total joint replacements.",
     color: "bg-[#00baf2]",
     shadow: "shadow-sky-500/20",
     highlights: [
       "Total Hip & Knee Replacement",
       "Spinal Surgery & Disc Treatments",
-      "Sports Injury Management",
-      "Fracture Fixation & Trauma Care",
+      "Arthroscopic (Keyhole) Surgery",
+      "Complex Fracture Management",
+    ],
+  },
+  {
+    icon: Scissors,
+    title: "Plastic, Reconstructive & Cosmetic Surgery",
+    description:
+      "Expert surgical procedures focused on restoring function and enhancing aesthetics through advanced microsurgery and cosmetic techniques.",
+    color: "bg-violet-600",
+    shadow: "shadow-violet-500/20",
+    highlights: [
+      "Microsurgery & Flap Coverage",
+      "Cosmetic Face & Body Contouring",
+      "Reconstructive Hand Surgery",
+      "Scar Revision & Laser Treatments",
     ],
   },
   {
     icon: Flame,
-    title: "Advanced Burn Care",
+    title: "Advanced Burns Unit",
     description:
-      "State-of-the-art treatment for burn injuries with a focus on recovery, skin grafting, and reconstruction.",
+      "State-of-the-art dedicated facility for acute burn management, skin grafting, and post-burn reconstruction.",
     color: "bg-orange-500",
     shadow: "shadow-orange-500/20",
     highlights: [
-      "Acute Burn Treatment",
-      "Skin Grafting & Reconstruction",
+      "Acute Burn ICU Care",
+      "Skin Grafting & Bio-Dressings",
       "Contracture Release Surgery",
       "Post-Burn Rehabilitation",
     ],
   },
   {
-    icon: Scissors,
-    title: "Plastic & Reconstructive Surgery",
+    icon: Activity,
+    title: "Liposuction",
     description:
-      "Specialized reconstructive procedures restoring form and function after trauma, burns, or congenital conditions.",
-    color: "bg-violet-600",
-    shadow: "shadow-violet-500/20",
+      "Advanced body sculpting and fat removal procedures performed by senior plastic surgeons using modern equipment.",
+    color: "bg-cyan-600",
+    shadow: "shadow-cyan-500/20",
     highlights: [
-      "Microsurgery & Flap Coverage",
-      "Cleft Lip & Palate Repair",
-      "Hand Surgery & Replantation",
-      "Scar Revision & Cosmetic Procedures",
+      "Targeted Fat Removal",
+      "Body Contouring & Sculpting",
+      "Minimally Invasive Techniques",
+      "Quick Recovery Protocols",
     ],
   },
   {
     icon: Baby,
-    title: "Maternity & Gynaecology",
+    title: "Maternity & Gynecology",
     description:
-      "Comprehensive women's healthcare from prenatal care to delivery and gynaecological surgeries with 34+ years of experience.",
+      "Compassionate women's healthcare from prenatal care to complex gynecological surgeries with 34+ years of expertise.",
     color: "bg-pink-500",
     shadow: "shadow-pink-500/20",
     highlights: [
-      "Normal & Caesarean Deliveries",
-      "High-Risk Pregnancy Management",
-      "Laparoscopic Gynaecology",
-      "Infertility Evaluation & Support",
+      "Normal & C-Section Deliveries",
+      "High-Risk Pregnancy Care",
+      "Laparoscopic Gynae Surgery",
+      "Infertility & Wellness Clinics",
     ],
   },
   {
     icon: Ambulance,
     title: "24/7 Emergency & Trauma",
     description:
-      "Immediate medical response for accidents, trauma, and critical conditions with a fully equipped emergency ward.",
+      "Immediate, life-saving medical response for accidents and critical emergencies with a fully equipped trauma center.",
     color: "bg-red-500",
     shadow: "shadow-red-500/20",
     highlights: [
       "Round-the-Clock Emergency Care",
       "Accident & Trauma Stabilization",
-      "Emergency Surgical Theatre",
-      "Ambulance Services",
+      "Emergency OT Facilities",
+      "Advanced Ambulance Support",
     ],
   },
   {
     icon: HeartPulse,
     title: "Critical Care (ICU)",
     description:
-      "Highly specialized intensive care monitoring for complex medical and surgical patients with advanced life-support.",
+      "Advanced life-support monitoring for complex medical and surgical patients, led by dedicated intensivists.",
     color: "bg-rose-500",
     shadow: "shadow-rose-500/20",
     highlights: [
-      "24/7 Intensivist-Led Care",
-      "Ventilator & Life-Support Systems",
-      "Post-Surgical Critical Monitoring",
-      "Multi-Organ Failure Management",
+      "24/7 Intensivist Coverage",
+      "Ventilator Support Systems",
+      "Post-Surgical Critical Care",
+      "Multi-Organ Failure Support",
     ],
   },
 ];
@@ -231,7 +245,7 @@ export default function ServicesPage() {
             {mainServices.map((service, index) => (
               <motion.div
                 key={service.title}
-                id={service.title.toLowerCase().includes('ortho') ? 'ortho' : service.title.toLowerCase().includes('burn') ? 'burns' : service.title.toLowerCase().includes('plastic') ? 'plastic' : service.title.toLowerCase().includes('maternity') ? 'maternity' : service.title.toLowerCase().includes('emergency') ? 'emergency' : service.title.toLowerCase().includes('icu') ? 'icu' : ''}
+                id={service.title.toLowerCase().includes('ortho') ? 'ortho' : service.title.toLowerCase().includes('burn') ? 'burns' : service.title.toLowerCase().includes('plastic') ? 'plastic' : service.title.toLowerCase().includes('maternity') ? 'maternity' : service.title.toLowerCase().includes('emergency') ? 'emergency' : service.title.toLowerCase().includes('icu') ? 'icu' : service.title.toLowerCase().includes('lipo') ? 'lipo' : ''}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

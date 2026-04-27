@@ -19,51 +19,51 @@ import {
 const services = [
   {
     icon: Activity,
-    title: "Orthopedic Surgery",
-    description: "Expert joint replacement and spinal care specialized for mobility and long-term health.",
+    title: "Ortho, Spine & Joint Replacement",
+    description: "Expert care for spinal issues, keyhole joint surgeries, and total hip/knee replacements.",
     color: "bg-[#00baf2]", // Paytm Sky Blue
     shadow: "shadow-sky-500/20",
     href: "/services#ortho"
   },
   {
+    icon: Scissors,
+    title: "Plastic & Cosmetic Surgery",
+    description: "Reconstructive and aesthetic procedures including microsurgery and body contouring.",
+    color: "bg-violet-600",
+    shadow: "shadow-violet-500/20",
+    href: "/services#plastic"
+  },
+  {
     icon: Flame,
-    title: "Advanced Burn Care",
-    description: "State-of-the-art treatment for burn injuries with a focus on recovery and reconstruction.",
+    title: "Advanced Burns Unit",
+    description: "Dedicated facility for acute burn management and post-burn reconstruction.",
     color: "bg-orange-500",
     shadow: "shadow-orange-500/20",
     href: "/services#burns"
   },
   {
-    icon: Activity, // Using Activity for heartbeat look in red box
+    icon: Activity,
+    title: "Liposuction",
+    description: "Safe and effective body sculpting procedures performed by senior plastic surgeons.",
+    color: "bg-cyan-600",
+    shadow: "shadow-cyan-500/20",
+    href: "/services#lipo"
+  },
+  {
+    icon: HeartPulse,
+    title: "Maternity & Gynecology",
+    description: "Comprehensive women's healthcare and maternity services with 34+ years of expertise.",
+    color: "bg-pink-500",
+    shadow: "shadow-pink-500/20",
+    href: "/services#maternity"
+  },
+  {
+    icon: Activity, 
     title: "24/7 Emergency",
     description: "Immediate medical response for trauma and critical conditions, available round the clock.",
     color: "bg-red-500",
     shadow: "shadow-red-500/20",
     href: "/services#emergency"
-  },
-  {
-    icon: HeartPulse,
-    title: "Critical Care (ICU)",
-    description: "Highly specialized intensive care monitoring for complex medical and surgical patients.",
-    color: "bg-rose-500",
-    shadow: "shadow-rose-500/20",
-    href: "/services#icu"
-  },
-  {
-    icon: Microscope,
-    title: "Advanced Diagnostics",
-    description: "Modern laboratory and imaging services for accurate and timely health assessments.",
-    color: "bg-indigo-600",
-    shadow: "shadow-indigo-500/20",
-    href: "/services"
-  },
-  {
-    icon: Pill,
-    title: "In-House Pharmacy",
-    description: "Quick and reliable access to essential medications and medical supplies onsite.",
-    color: "bg-emerald-500",
-    shadow: "shadow-emerald-500/20",
-    href: "/services"
   },
   {
     icon: Stethoscope,
