@@ -19,25 +19,28 @@ export default async function AdminPage() {
     prisma.galleryImage.findMany({ orderBy: { order: "asc" } })
   ]);
 
-  // Convert to plain objects (handle dates and complex types)
+  // Convert to plain objects and map permissions correctly
   const plainData = JSON.parse(JSON.stringify({
     appointments,
     doctors,
     reviews,
-    users,
+    users: users.map(u => ({
+      ...u,
+      permissions: typeof u.permissions === 'string' ? JSON.parse(u.permissions) : u.permissions
+    })),
     gallery
   }));
   
-  // Robust permission parsing
-  let permissions: string[] = [];
+  // Parse permissions for the current session user
+  let currentPermissions: string[] = [];
   try {
     if (Array.isArray(session.permissions)) {
-      permissions = session.permissions;
+      currentPermissions = session.permissions;
     } else if (typeof session.permissions === "string") {
       if (session.permissions.startsWith("[")) {
-        permissions = JSON.parse(session.permissions);
+        currentPermissions = JSON.parse(session.permissions);
       } else {
-        permissions = session.permissions.split(",").map((p: string) => p.trim());
+        currentPermissions = session.permissions.split(",").map((p: string) => p.trim());
       }
     }
   } catch (e) {
@@ -49,7 +52,7 @@ export default async function AdminPage() {
     username: session.username,
     role: session.role,
     name: session.name,
-    permissions: permissions
+    permissions: currentPermissions
   };
 
   return (
