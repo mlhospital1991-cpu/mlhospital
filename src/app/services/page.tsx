@@ -327,65 +327,6 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center max-w-3xl mx-auto mb-16"
-          >
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">
-              Why Choose{" "}
-              <span className="text-brand-teal">M&nbsp;L&nbsp;Hospital?</span>
-            </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: Clock,
-                stat: "34+",
-                label: "Years of Excellence",
-              },
-              {
-                icon: ShieldCheck,
-                stat: "24/7",
-                label: "Emergency Services",
-              },
-              {
-                icon: BrainCircuit,
-                stat: "15+",
-                label: "Specialist Doctors",
-              },
-              {
-                icon: HeartPulse,
-                stat: "50,000+",
-                label: "Patients Served",
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center p-8 rounded-[28px] bg-slate-50 border border-slate-100"
-              >
-                <div className="w-14 h-14 rounded-full bg-brand-teal/10 flex items-center justify-center mx-auto mb-4">
-                  <item.icon size={24} className="text-brand-teal" />
-                </div>
-                <p className="text-4xl font-bold text-brand-blue-deep mb-2">
-                  {item.stat}
-                </p>
-                <p className="text-slate-500 text-sm font-bold uppercase tracking-wider">
-                  {item.label}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* CTA */}
