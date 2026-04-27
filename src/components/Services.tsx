@@ -13,7 +13,8 @@ import {
   Microscope, 
   Pill, 
   Clock,
-  ChevronRight
+  ChevronRight,
+  Scissors
 } from "lucide-react";
 
 const services = [
