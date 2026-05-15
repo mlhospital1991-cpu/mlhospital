@@ -90,9 +90,9 @@ const SecondOpinionForm = () => {
             handleUploadUrl: "/api/upload",
           });
           reportUrls.push(blob.url);
-        } catch (uploadErr) {
+        } catch (uploadErr: any) {
           console.error(`Error uploading ${file.name}:`, uploadErr);
-          throw new Error(`Failed to upload ${file.name}. Please check your connection.`);
+          throw new Error(`Failed to upload ${file.name}: ${uploadErr.message || "Unknown error"}`);
         }
       }
 
