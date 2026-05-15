@@ -17,19 +17,68 @@ const EmergencyModal: React.FC<EmergencyModalProps> = ({ isOpen, onClose, whatsa
     issue: "",
   });
 
-  const handleSend = () => {
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+
+  const handleSend = async () => {
     const { name, location, issue } = formData;
     if (!name || !location || !issue) {
       alert("Please fill in all fields for a faster response.");
       return;
     }
 
-    const message = encodeURIComponent(
-      `Emergency! \nName: ${name}\nLocation: ${location}\nIssue: ${issue}`
-    );
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
-    window.open(whatsappUrl, "_blank");
-    onClose();
+    setIsSaving(true);
+    setSaveError(null);
+
+    try {
+      // Save to database as an emergency appointment
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const formattedHours = hours % 12 || 12;
+      const formattedTime = `${formattedHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+
+      const res = await fetch("/api/appointments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          location,
+          issue,
+          doctor: "EMERGENCY",
+          date: now.toISOString(),
+          time: formattedTime,
+          status: "emergency"
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to save to system");
+      }
+
+      const message = encodeURIComponent(
+        `Emergency! \nName: ${name}\nLocation: ${location}\nIssue: ${issue}`
+      );
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+      window.open(whatsappUrl, "_blank");
+      onClose();
+    } catch (error) {
+      console.error("Emergency save error:", error);
+      setSaveError("System busy. Opening WhatsApp anyway...");
+      
+      // Still open WhatsApp as it's an emergency
+      const message = encodeURIComponent(
+        `Emergency! \nName: ${name}\nLocation: ${location}\nIssue: ${issue}`
+      );
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+      setTimeout(() => {
+        window.open(whatsappUrl, "_blank");
+        onClose();
+      }, 1500);
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   // Prevent background scrolling when modal is open
@@ -117,12 +166,23 @@ const EmergencyModal: React.FC<EmergencyModalProps> = ({ isOpen, onClose, whatsa
                   />
                 </div>
 
+                {saveError && (
+                  <p className="text-red-500 text-[10px] font-bold text-center animate-pulse">{saveError}</p>
+                )}
+
                 <button
                   onClick={handleSend}
-                  className="w-full bg-red-600 hover:brightness-110 text-white py-5 rounded-[24px] font-bold flex items-center justify-center gap-3 transition-all shadow-xl shadow-red-600/20 group text-lg"
+                  disabled={isSaving}
+                  className="w-full bg-red-600 hover:brightness-110 text-white py-5 rounded-[24px] font-bold flex items-center justify-center gap-3 transition-all shadow-xl shadow-red-600/20 group text-lg disabled:opacity-70"
                 >
-                  <MessageSquare size={22} className="group-hover:scale-110 transition-transform" />
-                  Send to WhatsApp
+                  {isSaving ? (
+                    <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  ) : (
+                    <>
+                      <MessageSquare size={22} className="group-hover:scale-110 transition-transform" />
+                      Send to WhatsApp
+                    </>
+                  )}
                 </button>
                 
                 <p className="text-center text-slate-400 text-[11px] font-bold uppercase tracking-widest mt-4">

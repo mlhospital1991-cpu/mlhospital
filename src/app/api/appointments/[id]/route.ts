@@ -28,11 +28,11 @@ export async function PATCH(
 
     const { id } = await params;
 
-    // Ownership check for Doctors
+    // Ownership check for Doctors (Allowed to update their own + Emergencies)
     if (session.role === "DOCTOR") {
       const appointment = await prisma.appointment.findUnique({ where: { id } });
-      if (appointment?.doctor !== session.name) {
-        return NextResponse.json({ error: "Forbidden: You can only update your own appointments" }, { status: 403 });
+      if (appointment?.doctor !== session.name && appointment?.doctor !== "EMERGENCY") {
+        return NextResponse.json({ error: "Forbidden: You can only update your own or emergency appointments" }, { status: 403 });
       }
     }
 

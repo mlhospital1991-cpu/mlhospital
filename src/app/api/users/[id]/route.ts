@@ -14,15 +14,22 @@ export async function PATCH(
 
   try {
     const { id } = await params;
-    const { role, permissions, name } = await request.json();
+    const { role, permissions, name, password } = await request.json();
+
+    const data: any = {
+      role,
+      name,
+      permissions: permissions ? JSON.stringify(permissions) : undefined,
+    };
+
+    if (password && password.trim() !== "") {
+      const { hashPassword } = await import("@/lib/auth");
+      data.password = await hashPassword(password);
+    }
 
     const updatedUser = await prisma.user.update({
       where: { id },
-      data: {
-        role,
-        name,
-        permissions: permissions ? JSON.stringify(permissions) : undefined,
-      },
+      data,
     });
 
     return NextResponse.json({
@@ -32,6 +39,7 @@ export async function PATCH(
       permissions: JSON.parse(updatedUser.permissions),
     });
   } catch (error) {
+    console.error("User update error:", error);
     return NextResponse.json({ error: "Failed to update user" }, { status: 500 });
   }
 }

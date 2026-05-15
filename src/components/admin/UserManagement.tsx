@@ -40,6 +40,9 @@ export default function UserManagement({ initialUsers = [] }: UserManagementProp
   const [loading, setLoading] = useState(initialUsers.length === 0);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [showPasswordModal, setShowPasswordModal] = useState<string | null>(null); // userId
+  const [newPassword, setNewPassword] = useState("");
+  const [updatingPassword, setUpdatingPassword] = useState(false);
   
   // Form State
   const [formData, setFormData] = useState({
@@ -131,6 +134,31 @@ export default function UserManagement({ initialUsers = [] }: UserManagementProp
     }
   };
 
+  const handleUpdatePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!showPasswordModal || !newPassword.trim()) return;
+
+    setUpdatingPassword(true);
+    try {
+      const res = await fetch(`/api/users/${showPasswordModal}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: newPassword }),
+      });
+      if (res.ok) {
+        setShowPasswordModal(null);
+        setNewPassword("");
+        alert("Password updated successfully");
+      } else {
+        alert("Failed to update password");
+      }
+    } catch (err) {
+      alert("Error updating password");
+    } finally {
+      setUpdatingPassword(false);
+    }
+  };
+
   const handleDeleteUser = async (userId: string) => {
     if (!confirm("Are you sure you want to delete this user?")) return;
     try {
@@ -171,6 +199,7 @@ export default function UserManagement({ initialUsers = [] }: UserManagementProp
               <tr className="bg-slate-50/50">
                 <th className="p-8 pb-4 text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">Staff Member</th>
                 <th className="p-8 pb-4 text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">Role</th>
+                <th className="p-8 pb-4 text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">Security</th>
                 <th className="p-8 pb-4 text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">Permissions</th>
                 <th className="p-8 pb-4 text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">Action</th>
               </tr>
@@ -201,6 +230,15 @@ export default function UserManagement({ initialUsers = [] }: UserManagementProp
                     >
                       {ROLES.map(r => <option key={r} value={r}>{r}</option>)}
                     </select>
+                  </td>
+                  <td className="p-8">
+                    <button 
+                      onClick={() => setShowPasswordModal(user.id)}
+                      className="flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-100 rounded-xl text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:bg-slate-100 transition-all"
+                    >
+                      <Shield size={14} className="text-brand-teal" />
+                      Change Pass
+                    </button>
                   </td>
                   <td className="p-8">
                     <div className="flex flex-wrap gap-2 items-center">
@@ -337,6 +375,60 @@ export default function UserManagement({ initialUsers = [] }: UserManagementProp
                     className="flex-1 bg-brand-teal text-white py-4.5 rounded-2xl font-bold shadow-xl shadow-brand-teal/20 hover:brightness-110 active:scale-95 transition-all"
                   >
                     Create Account
+                  </button>
+                </div>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Password Change Modal */}
+      <AnimatePresence>
+        {showPasswordModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="bg-white rounded-[40px] p-10 w-full max-w-sm shadow-2xl relative overflow-hidden"
+            >
+              <div className="mb-8 text-center">
+                <div className="w-16 h-16 bg-brand-teal/10 rounded-3xl flex items-center justify-center mx-auto mb-6 text-brand-teal">
+                  <Shield size={32} />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-1">Change Password</h3>
+                <p className="text-sm text-slate-500">Enter a new secure password for {users.find(u => u.id === showPasswordModal)?.name}</p>
+              </div>
+
+              <form onSubmit={handleUpdatePassword} className="space-y-6">
+                <div className="space-y-2">
+                  <label className="text-[11px] font-bold text-slate-400 ml-2 uppercase tracking-widest">New Password</label>
+                  <input 
+                    required
+                    autoFocus
+                    type="text" // Using text so admin can see what they are setting
+                    placeholder="Enter new password"
+                    className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-5 py-4 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-brand-teal/5 focus:bg-white transition-all"
+                    value={newPassword}
+                    onChange={e => setNewPassword(e.target.value)}
+                  />
+                </div>
+
+                <div className="flex gap-4">
+                  <button 
+                    type="button" 
+                    onClick={() => { setShowPasswordModal(null); setNewPassword(""); }}
+                    className="flex-1 py-4.5 rounded-2xl font-bold text-slate-500 hover:bg-slate-50 transition-all"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit"
+                    disabled={updatingPassword || !newPassword.trim()}
+                    className="flex-1 bg-brand-teal text-white py-4.5 rounded-2xl font-bold shadow-xl shadow-brand-teal/20 hover:brightness-110 active:scale-95 transition-all disabled:opacity-50"
+                  >
+                    {updatingPassword ? "Updating..." : "Update"}
                   </button>
                 </div>
               </form>

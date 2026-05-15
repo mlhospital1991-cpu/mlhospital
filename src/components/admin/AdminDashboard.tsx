@@ -30,6 +30,7 @@ import ReviewManagement from "@/components/admin/ReviewManagement";
 import DoctorManagement from "@/components/admin/DoctorManagement";
 import GalleryManagement from "@/components/admin/GalleryManagement";
 import SecondOpinionManagement from "@/components/admin/SecondOpinionManagement";
+import OverviewDashboard from "@/components/admin/OverviewDashboard";
 import { ImageIcon, FileText as FileIcon } from "lucide-react";
 
 
@@ -67,13 +68,18 @@ interface AdminDashboardProps {
 }
 
 export default function AdminDashboard({ initialData, userProfile }: AdminDashboardProps) {
-  const [activeTab, setActiveTab] = useState<"dashboard" | "users" | "reviews" | "doctors" | "gallery" | "second-opinion">("dashboard");
+  const [activeTab, setActiveTab] = useState<"overview" | "dashboard" | "users" | "reviews" | "doctors" | "gallery" | "second-opinion">("overview");
   const [appointments, setAppointments] = useState<Appointment[]>(initialData.appointments);
   const [doctors, setDoctors] = useState<any[]>(initialData.doctors);
   const [loading, setLoading] = useState(false);
   const [lastRefreshed, setLastRefreshed] = useState<Date>(new Date());
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const fetchDoctors = useCallback(async () => {
     try {
@@ -106,11 +112,10 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
   }, []);
 
   useEffect(() => {
-    if (activeTab === "dashboard") {
-      const interval = setInterval(fetchAppointments, 60000);
-      return () => clearInterval(interval);
-    }
-  }, [activeTab, fetchAppointments]);
+    // Refresh data every 10 seconds for real-time feel
+    const interval = setInterval(fetchAppointments, 10000);
+    return () => clearInterval(interval);
+  }, [fetchAppointments]);
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -118,17 +123,31 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
   };
 
   const updateStatus = async (id: string, newStatus: string) => {
+    // Optimistic Update: Update UI instantly
+    const previousAppointments = [...appointments];
+    setAppointments(prev => prev.map(apt => 
+      apt.id === id ? { ...apt, status: newStatus } : apt
+    ));
+
     try {
       const res = await fetch(`/api/appointments/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
       });
-      if (res.ok) {
-        fetchAppointments();
+      
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to update");
       }
-    } catch (err) {
+      
+      // Sync with server data to ensure consistency
+      fetchAppointments();
+    } catch (err: any) {
       console.error("Failed to update status:", err);
+      // Rollback to previous state on error
+      setAppointments(previousAppointments);
+      alert(err.message || "Failed to update status. Please try again.");
     }
   };
 
@@ -171,8 +190,12 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
 
   const filteredAppointments = appointments.filter(apt => {
     const matchesSearch = apt.name.toLowerCase().includes(search.toLowerCase()) || 
-                          apt.doctor.toLowerCase().includes(search.toLowerCase());
-    const matchesFilter = filter === "all" || apt.status === filter;
+                          apt.doctor.toLowerCase().includes(search.toLowerCase()) ||
+                          apt.issue?.toLowerCase().includes(search.toLowerCase()) ||
+                          apt.location?.toLowerCase().includes(search.toLowerCase());
+    const matchesFilter = filter === "all" || 
+                          apt.status === filter || 
+                          (filter === "emergency" && apt.doctor === "EMERGENCY");
     return matchesSearch && matchesFilter;
   });
 
@@ -193,9 +216,32 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
 
             <div className="hidden lg:flex items-center bg-slate-50 rounded-2xl p-1 border border-slate-100">
               <button 
-                onClick={() => setActiveTab("dashboard")}
+                onClick={() => setActiveTab("overview")}
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                  activeTab === "overview" ? "bg-white text-brand-blue-deep shadow-sm" : "text-slate-400 hover:text-slate-600"
+                }`}
+              >
+                <BarChart3 size={14} />
+                Overview
+              </button>
+              <button 
+                onClick={() => { setActiveTab("dashboard"); setFilter("emergency"); }}
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                  activeTab === "dashboard" && filter === "emergency" ? "bg-red-500 text-white shadow-lg shadow-red-500/20" : "text-slate-400 hover:text-slate-600"
+                }`}
+              >
+                <AlertCircle size={14} />
+                Emergency
+                {appointments.filter(a => a.status === 'emergency').length > 0 && (
+                  <span className="min-w-[18px] h-[18px] flex items-center justify-center bg-white text-red-500 text-[9px] font-black rounded-full px-1 animate-pulse">
+                    {appointments.filter(a => a.status === 'emergency').length}
+                  </span>
+                )}
+              </button>
+              <button 
+                onClick={() => { setActiveTab("dashboard"); setFilter("all"); }}
                 className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all relative ${
-                  activeTab === "dashboard" ? "bg-white text-brand-blue-deep shadow-sm" : "text-slate-400 hover:text-slate-600"
+                  activeTab === "dashboard" && filter !== "emergency" ? "bg-white text-brand-blue-deep shadow-sm" : "text-slate-400 hover:text-slate-600"
                 }`}
               >
                 <LayoutDashboard size={14} />
@@ -285,7 +331,16 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
 
       <main className="max-w-7xl mx-auto px-6 md:px-12 py-10">
         <AnimatePresence mode="wait">
-          {activeTab === "dashboard" ? (
+          {activeTab === "overview" ? (
+            <motion.div key="overview" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
+              <OverviewDashboard 
+                appointments={appointments}
+                secondOpinions={initialData.secondOpinions}
+                reviews={initialData.reviews}
+                doctors={doctors}
+              />
+            </motion.div>
+          ) : activeTab === "dashboard" ? (
             <motion.div
               key="dashboard"
               initial={{ opacity: 0, x: -20 }}
@@ -330,7 +385,7 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
 
                   <div className="flex items-center gap-3 w-full md:w-auto">
                     <div className="flex h-12 bg-slate-50 rounded-2xl p-1 border border-slate-100 overflow-x-auto">
-                      {["all", "pending", "forwarded", "completed", "archived"].map((f) => (
+                      {["all", "emergency", "pending", "forwarded", "completed", "archived"].map((f) => (
                         <button
                           key={f}
                           onClick={() => setFilter(f)}
@@ -367,12 +422,13 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
                         <tr key={apt.id} className="hover:bg-slate-50/20 transition-colors group">
                           <td className="p-8 py-10">
                             <div className="flex items-center gap-4">
-                              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-slate-400 bg-slate-100 ${apt.status === 'pending' ? 'ring-4 ring-brand-teal/20' : ''}`}>
-                                <UserIcon size={20} />
+                              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-slate-400 bg-slate-100 ${apt.status === 'emergency' ? 'ring-4 ring-red-500/20 bg-red-50 text-red-500' : apt.status === 'pending' ? 'ring-4 ring-brand-teal/20' : ''}`}>
+                                {apt.status === 'emergency' ? <AlertCircle size={20} /> : <UserIcon size={20} />}
                               </div>
                               <div>
                                 <p className="font-bold text-slate-900 mb-1 flex items-center gap-2">
                                   {apt.name} 
+                                  {apt.status === 'emergency' && <span className="px-2 py-0.5 rounded-full bg-red-500 text-white text-[8px] font-black uppercase animate-pulse">Emergency</span>}
                                   {apt.status === 'pending' && <span className="w-2 h-2 rounded-full bg-brand-teal inline-block animate-pulse" />}
                                 </p>
                                 <span className="text-[10px] flex items-center gap-1.5 text-slate-500 font-bold uppercase tracking-tight">
@@ -395,12 +451,14 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
                               value={apt.status}
                               onChange={(e) => updateStatus(apt.id, e.target.value)}
                               className={`text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-full border focus:outline-none transition-all ${
+                                apt.status === "emergency" ? "bg-red-50 text-red-600 border-red-200" :
                                 apt.status === "pending" ? "bg-amber-50 text-amber-600 border-amber-200" :
                                 apt.status === "forwarded" ? "bg-blue-50 text-blue-600 border-blue-200" :
                                 apt.status === "archived" ? "bg-slate-100 text-slate-500 border-slate-200" :
                                 "bg-green-50 text-green-600 border-green-200"
                               }`}
                             >
+                              <option value="emergency">Emergency</option>
                               <option value="pending">Pending</option>
                               <option value="forwarded">Forwarded</option>
                               <option value="completed">Completed</option>
@@ -452,7 +510,7 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
 
       <div className="max-w-7xl mx-auto px-6 text-center">
         <p className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.4em]">
-           M L Hospital Administrative Portal • Session: {userProfile.username.toUpperCase()} ({lastRefreshed.toLocaleTimeString()})
+           M L Hospital Administrative Portal • Session: {userProfile.username.toUpperCase()} ({mounted ? lastRefreshed.toLocaleTimeString() : "..."})
         </p>
       </div>
     </div>

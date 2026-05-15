@@ -12,9 +12,14 @@ export async function GET() {
   try {
     let whereClause = {};
     
-    // Role-based filtering: Doctors only see their own appointments
+    // Role-based filtering: Doctors see their own appointments + Emergencies
     if (session.role === "DOCTOR") {
-      whereClause = { doctor: session.name };
+      whereClause = {
+        OR: [
+          { doctor: session.name },
+          { doctor: "EMERGENCY" }
+        ]
+      };
     }
     
     // Note: Other roles (ADMIN, NURSE) can see all by default, 
@@ -50,7 +55,7 @@ export async function POST(request: Request) {
         date,
         time,
         opNumber: opNumber || null,
-        status: "pending",
+        status: body.status || "pending",
       },
     });
 

@@ -20,6 +20,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         return {
           allowedContentTypes: ['image/jpeg', 'image/png', 'application/pdf', 'application/octet-stream'],
           tokenPayload: JSON.stringify({ pathname }), // Minimal payload
+          addRandomSuffix: true,
         };
       },
       onUploadCompleted: async ({ blob, tokenPayload }) => {
