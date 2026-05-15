@@ -117,7 +117,9 @@ const SecondOpinionForm = () => {
       if (response.ok) {
         setIsSuccess(true);
       } else {
-        setErrorMessage(result.details || result.error || "Something went wrong. Please try again.");
+        const msg = result.error || "Submission failed";
+        const details = result.details ? `: ${result.details}` : "";
+        setErrorMessage(`${msg}${details}`);
       }
     } catch (error: any) {
       console.error("Submission error:", error);
