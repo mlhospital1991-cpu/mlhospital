@@ -17,10 +17,13 @@ import {
   MessageSquare
 } from "lucide-react";
 
+import { upload } from "@vercel/blob/client";
+
 const SecondOpinionForm = () => {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     patientName: "",
     email: "",
@@ -73,14 +76,35 @@ const SecondOpinionForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage(null);
 
     try {
+      // 1. Upload files directly to Vercel Blob from the client
+      // This bypasses the 4.5MB serverless function payload limit
+      const reportUrls: string[] = [];
+      
+      for (const file of files) {
+        try {
+          const blob = await upload(file.name, file, {
+            access: "public",
+            handleUploadUrl: "/api/upload",
+          });
+          reportUrls.push(blob.url);
+        } catch (uploadErr) {
+          console.error(`Error uploading ${file.name}:`, uploadErr);
+          throw new Error(`Failed to upload ${file.name}. Please check your connection.`);
+        }
+      }
+
+      // 2. Submit the form data and URLs to our API
       const data = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
         data.append(key, value);
       });
-      files.forEach((file) => {
-        data.append("reports", file);
+      
+      // Append the URLs we just got from the client-side upload
+      reportUrls.forEach((url) => {
+        data.append("reportUrls", url);
       });
 
       const response = await fetch("/api/second-opinion", {
@@ -88,14 +112,16 @@ const SecondOpinionForm = () => {
         body: data,
       });
 
+      const result = await response.json();
+
       if (response.ok) {
         setIsSuccess(true);
       } else {
-        alert("Something went wrong. Please try again.");
+        setErrorMessage(result.details || result.error || "Something went wrong. Please try again.");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Submission error:", error);
-      alert("Failed to submit request.");
+      setErrorMessage(error.message || "Failed to submit request.");
     } finally {
       setIsSubmitting(false);
     }
@@ -156,6 +182,16 @@ const SecondOpinionForm = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="bg-white p-8 md:p-12 rounded-[48px] shadow-2xl border border-slate-50">
+        {errorMessage && (
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8 p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 text-red-600 text-sm font-medium"
+          >
+            <X className="shrink-0" size={18} />
+            {errorMessage}
+          </motion.div>
+        )}
         <AnimatePresence mode="wait">
           {step === 1 && (
             <motion.div

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { put } from "@vercel/blob";
 
 export async function POST(request: Request) {
   try {
@@ -8,19 +9,28 @@ export async function POST(request: Request) {
     const patientName = formData.get("patientName") as string;
     const email = formData.get("email") as string;
     const phone = formData.get("phone") as string;
-    const age = formData.get("age") ? parseInt(formData.get("age") as string) : null;
+    
+    // Fix: Handle empty string or invalid number for age
+    const rawAge = formData.get("age") as string;
+    const age = (rawAge && !isNaN(Number(rawAge))) ? Number(rawAge) : null;
+    
     const gender = formData.get("gender") as string;
     const symptoms = formData.get("symptoms") as string;
     const currentDiagnosis = formData.get("currentDiagnosis") as string;
     const questions = formData.get("questions") as string;
     
-    // Handle files via Vercel Blob
-    const files = formData.getAll("reports") as File[];
+    // Support both direct file uploads (small files) and client-side URLs (large files)
     const reportUrls: string[] = [];
     
+    // 1. Check for client-side uploaded URLs first
+    const clientUrls = formData.getAll("reportUrls") as string[];
+    if (clientUrls.length > 0) {
+      reportUrls.push(...clientUrls);
+    }
+    
+    // 2. Fallback: Handle files via Vercel Blob (server-side)
+    const files = formData.getAll("reports") as File[];
     if (files.length > 0) {
-      const { put } = require("@vercel/blob");
-      
       for (const file of files) {
         if (file && file.size > 0) {
           try {
@@ -30,7 +40,6 @@ export async function POST(request: Request) {
             reportUrls.push(blob.url);
           } catch (uploadError) {
             console.error("Blob Upload Error:", uploadError);
-            // Continue with other files or fail gracefully
           }
         }
       }
