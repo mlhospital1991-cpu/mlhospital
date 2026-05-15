@@ -69,10 +69,23 @@ interface AdminDashboardProps {
 export default function AdminDashboard({ initialData, userProfile }: AdminDashboardProps) {
   const [activeTab, setActiveTab] = useState<"dashboard" | "users" | "reviews" | "doctors" | "gallery" | "second-opinion">("dashboard");
   const [appointments, setAppointments] = useState<Appointment[]>(initialData.appointments);
+  const [doctors, setDoctors] = useState<any[]>(initialData.doctors);
   const [loading, setLoading] = useState(false);
   const [lastRefreshed, setLastRefreshed] = useState<Date>(new Date());
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
+
+  const fetchDoctors = useCallback(async () => {
+    try {
+      const res = await fetch("/api/admin/doctors");
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setDoctors(data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch doctors:", err);
+    }
+  }, []);
 
   const fetchAppointments = useCallback(async () => {
     setLoading(true);
@@ -120,9 +133,11 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
   };
 
   const forwardToDoctor = (apt: Appointment) => {
-    // Dynamically find the doctor's number from the database records
-    const doctorRecord = initialData.doctors.find(d => d.name === apt.doctor);
-    const doctorNumber = doctorRecord?.whatsapp || "918885553193";
+    // Dynamically find the doctor's number from the latest doctors state
+    const doctorRecord = doctors.find(d => d.name === apt.doctor);
+    const rawNumber = doctorRecord?.whatsapp || "918885553193";
+    // Sanitize number: remove any non-numeric characters
+    const doctorNumber = rawNumber.replace(/\D/g, "");
     
     const message = encodeURIComponent(
       `*M L Hospital - Appointment Forward*\n\n` +
@@ -413,7 +428,7 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
             </motion.div>
           ) : activeTab === "doctors" ? (
             <motion.div key="doctors" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>
-              <DoctorManagement initialDoctors={initialData.doctors} />
+              <DoctorManagement initialDoctors={doctors} onUpdate={fetchDoctors} />
             </motion.div>
           ) : activeTab === "reviews" ? (
             <motion.div key="reviews" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}>

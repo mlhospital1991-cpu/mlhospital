@@ -21,9 +21,10 @@ interface Doctor {
 
 interface DoctorManagementProps {
   initialDoctors?: Doctor[];
+  onUpdate?: () => void;
 }
 
-export default function DoctorManagement({ initialDoctors = [] }: DoctorManagementProps) {
+export default function DoctorManagement({ initialDoctors = [], onUpdate }: DoctorManagementProps) {
   const [doctors, setDoctors] = useState<Doctor[]>(initialDoctors);
   const [loading, setLoading] = useState(initialDoctors.length === 0);
   const [editingDoc, setEditingDoc] = useState<Partial<Doctor> | null>(null);
@@ -41,8 +42,11 @@ export default function DoctorManagement({ initialDoctors = [] }: DoctorManageme
   };
 
   useEffect(() => {
-    fetchDoctors();
-  }, []);
+    setDoctors(initialDoctors);
+    if (initialDoctors.length === 0) {
+      fetchDoctors();
+    }
+  }, [initialDoctors]);
 
   const handleUpdate = async (id: string, data: any) => {
     try {
@@ -53,6 +57,7 @@ export default function DoctorManagement({ initialDoctors = [] }: DoctorManageme
       });
       if (res.ok) {
         toast.success("Doctor updated");
+        if (onUpdate) onUpdate();
         fetchDoctors();
         setEditingDoc(null);
       }
@@ -67,6 +72,7 @@ export default function DoctorManagement({ initialDoctors = [] }: DoctorManageme
       const res = await fetch(`/api/admin/doctors/${id}`, { method: "DELETE" });
       if (res.ok) {
         toast.success("Doctor deleted");
+        if (onUpdate) onUpdate();
         fetchDoctors();
       }
     } catch (error) {
