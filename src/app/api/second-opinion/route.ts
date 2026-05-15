@@ -14,22 +14,25 @@ export async function POST(request: Request) {
     const currentDiagnosis = formData.get("currentDiagnosis") as string;
     const questions = formData.get("questions") as string;
     
-    // Handle files
+    // Handle files via Vercel Blob
     const files = formData.getAll("reports") as File[];
     const reportUrls: string[] = [];
     
-    for (const file of files) {
-      if (file && file.size > 0) {
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        
-        const filename = `${Date.now()}-${file.name.replace(/\s+/g, "-")}`;
-        const path = require("path").join(process.cwd(), "public", "reports", filename);
-        
-        const fs = require("fs/promises");
-        await fs.writeFile(path, buffer);
-        
-        reportUrls.push(`/reports/${filename}`);
+    if (files.length > 0) {
+      const { put } = require("@vercel/blob");
+      
+      for (const file of files) {
+        if (file && file.size > 0) {
+          try {
+            const blob = await put(`reports/${Date.now()}-${file.name}`, file, {
+              access: 'public',
+            });
+            reportUrls.push(blob.url);
+          } catch (uploadError) {
+            console.error("Blob Upload Error:", uploadError);
+            // Continue with other files or fail gracefully
+          }
+        }
       }
     }
 
