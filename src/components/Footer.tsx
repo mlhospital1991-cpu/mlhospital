@@ -169,7 +169,11 @@ const Footer = () => {
               <ShieldCheck size={14} className="text-brand-teal" />
               Google Verified Business
             </div>
-            <Link href="/admin" className="text-slate-500 hover:text-white transition-colors">Admin Login</Link>
+            <div className="flex items-center gap-6">
+              <Link href="/privacy" className="text-slate-500 hover:text-white transition-colors">Privacy Policy</Link>
+              <Link href="/terms" className="text-slate-500 hover:text-white transition-colors">Terms</Link>
+              <Link href="/admin" className="text-slate-500 hover:text-white transition-colors">Admin Login</Link>
+            </div>
           </div>
         </div>
       </div>

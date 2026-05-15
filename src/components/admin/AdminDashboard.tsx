@@ -179,12 +179,17 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
             <div className="hidden lg:flex items-center bg-slate-50 rounded-2xl p-1 border border-slate-100">
               <button 
                 onClick={() => setActiveTab("dashboard")}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all relative ${
                   activeTab === "dashboard" ? "bg-white text-brand-blue-deep shadow-sm" : "text-slate-400 hover:text-slate-600"
                 }`}
               >
                 <LayoutDashboard size={14} />
                 Enquiries
+                {appointments.filter(a => a.status === 'pending').length > 0 && (
+                  <span className="min-w-[18px] h-[18px] flex items-center justify-center bg-red-500 text-white text-[9px] font-black rounded-full px-1 animate-pulse">
+                    {appointments.filter(a => a.status === 'pending').length}
+                  </span>
+                )}
               </button>
               <button 
                 onClick={() => setActiveTab("reviews")}
@@ -215,12 +220,17 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
               </button>
               <button 
                 onClick={() => setActiveTab("second-opinion")}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all relative ${
                   activeTab === "second-opinion" ? "bg-white text-brand-blue-deep shadow-sm" : "text-slate-400 hover:text-slate-600"
                 }`}
               >
                 <FileIcon size={14} />
                 Opinions
+                {initialData.secondOpinions.filter((s: any) => s.status === 'pending').length > 0 && (
+                  <span className="min-w-[18px] h-[18px] flex items-center justify-center bg-red-500 text-white text-[9px] font-black rounded-full px-1 animate-pulse">
+                    {initialData.secondOpinions.filter((s: any) => s.status === 'pending').length}
+                  </span>
+                )}
               </button>
               {hasPermission("manage_users") && (
                 <button 

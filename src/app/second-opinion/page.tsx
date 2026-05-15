@@ -1,5 +1,5 @@
 import React from "react";
-import SecondOpinionForm from "@/components/SecondOpinionForm";
+import SecondOpinionClient from "@/components/SecondOpinionClient";
 import Navbar from "@/components/Navbar";
 import { Metadata } from "next";
 
@@ -30,7 +30,7 @@ export default function SecondOpinionPage() {
           </p>
         </div>
 
-        <SecondOpinionForm />
+        <SecondOpinionClient />
       </div>
 
       {/* Footer-like info */}
