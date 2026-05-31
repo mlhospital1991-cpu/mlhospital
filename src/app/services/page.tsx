@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import ServicesClient from "@/components/services/ServicesClient";
 import {
   Bone,
@@ -13,8 +14,6 @@ import {
   Zap,
   CheckCircle2,
 } from "lucide-react";
-
-export const dynamic = "force-dynamic";
 
 const mainServices = [
   {
@@ -77,19 +76,41 @@ export default function ServicesPage() {
   return (
     <main className="bg-white">
       {/* Hero Banner - SSR */}
-      <section className="relative bg-[#001e3c] overflow-hidden">
-        <div className="relative max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-32">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-[#00baf2] font-bold text-[11px] uppercase tracking-widest mb-6 backdrop-blur-sm">
-            <Zap size={14} />
+      <section className="relative bg-brand-blue-deep text-white py-20 md:py-32 overflow-hidden">
+        <div className="absolute inset-0 opacity-15">
+          <Image 
+            src="/WhatsApp Image 2026-04-10 at 4.44.30 PM (2).jpeg" 
+            alt="ML Hospital Surgery" 
+            fill 
+            sizes="100vw" 
+            className="object-cover grayscale"
+            priority
+          />
+        </div>
+        {/* Paytm-style gradient glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-brand-teal opacity-10 rounded-full blur-[100px] -mr-48 -mt-48" />
+        
+        <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10 text-center md:text-left">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[11px] font-bold uppercase tracking-widest mb-6">
+            <Zap size={14} className="text-brand-teal" />
             World-Class Medical Care
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+          
+          <h1 className="text-5xl md:text-7xl font-bold leading-tight">
             Our Medical <br />
-            <span className="text-[#00baf2]">Services</span>
+            <span className="text-brand-teal">Services</span>
           </h1>
-          <p className="text-slate-300 text-lg max-w-2xl font-medium leading-relaxed">
+          
+          <p className="mt-8 text-slate-300 text-lg md:text-xl leading-relaxed max-w-2xl">
             From emergency trauma response to specialized surgeries, M L Hospital has been providing world-class medical facilities for over 35 years.
           </p>
+        </div>
+        
+        {/* Curved Divider */}
+        <div className="absolute -bottom-1 left-0 w-full overflow-hidden leading-[0] z-20">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[60px] md:h-[100px]">
+            <path d="M0,0 C300,10 600,100 1200,50 V120 H0 Z" fill="white" />
+          </svg>
         </div>
       </section>
 

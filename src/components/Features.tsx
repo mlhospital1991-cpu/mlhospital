@@ -102,7 +102,7 @@ const Features = () => {
               <h3 className="text-4xl font-bold text-slate-900 mb-2 tracking-tight">
                 {stat.value}
               </h3>
-              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em]">
+              <p className="text-[11px] font-bold text-slate-600 uppercase tracking-[0.2em]">
                 {stat.label}
               </p>
             </motion.div>

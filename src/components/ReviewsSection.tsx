@@ -124,7 +124,7 @@ const ReviewsSection = ({ reviews }: { reviews: Review[] }) => {
                           </div>
                         </div>
                         
-                        <div className="flex items-center gap-3 text-slate-400">
+                        <div className="flex items-center gap-3 text-slate-500">
                           <div className="flex items-center gap-1.5 bg-slate-50 px-2 py-0.5 rounded-lg border border-slate-100">
                             <svg viewBox="0 0 24 24" className="w-3.5 h-3.5">
                               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -132,9 +132,9 @@ const ReviewsSection = ({ reviews }: { reviews: Review[] }) => {
                               <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" />
                               <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                             </svg>
-                            <span className="text-[9px] font-bold uppercase tracking-wider text-slate-400">Verified</span>
+                            <span className="text-[9px] font-bold uppercase tracking-wider text-slate-600">Verified</span>
                           </div>
-                          <span className="text-xs font-semibold text-slate-400">{reviews[currentIndex].relativeTime}</span>
+                          <span className="text-xs font-semibold text-slate-600">{reviews[currentIndex].relativeTime}</span>
                         </div>
                       </div>
                     </div>
@@ -148,13 +148,15 @@ const ReviewsSection = ({ reviews }: { reviews: Review[] }) => {
           <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between pointer-events-none px-4 md:-mx-8 z-20">
             <button
               onClick={() => paginate(-1)}
-              className="w-14 h-14 rounded-full bg-white border border-slate-100 shadow-lg flex items-center justify-center text-slate-400 hover:text-brand-teal hover:border-brand-teal transition-all pointer-events-auto active:scale-95 group"
+              aria-label="Previous review"
+              className="w-14 h-14 rounded-full bg-white border border-slate-100 shadow-lg flex items-center justify-center text-slate-600 hover:text-brand-teal hover:border-brand-teal transition-all pointer-events-auto active:scale-95 group"
             >
               <ChevronLeft className="group-hover:-translate-x-0.5 transition-transform" />
             </button>
             <button
               onClick={() => paginate(1)}
-              className="w-14 h-14 rounded-full bg-white border border-slate-100 shadow-lg flex items-center justify-center text-slate-400 hover:text-brand-teal hover:border-brand-teal transition-all pointer-events-auto active:scale-95 group"
+              aria-label="Next review"
+              className="w-14 h-14 rounded-full bg-white border border-slate-100 shadow-lg flex items-center justify-center text-slate-600 hover:text-brand-teal hover:border-brand-teal transition-all pointer-events-auto active:scale-95 group"
             >
               <ChevronRight className="group-hover:translate-x-0.5 transition-transform" />
             </button>
@@ -163,7 +165,7 @@ const ReviewsSection = ({ reviews }: { reviews: Review[] }) => {
 
         {/* Pagination Dots */}
         {reviews.length > 1 && (
-          <div className="flex justify-center gap-3 mt-12">
+          <div className="flex justify-center -space-x-4 mt-12">
             {reviews.map((_, idx) => (
               <button
                 key={idx}
@@ -171,12 +173,17 @@ const ReviewsSection = ({ reviews }: { reviews: Review[] }) => {
                   setDirection(idx > currentIndex ? 1 : -1);
                   setCurrentIndex(idx);
                 }}
-                className={`transition-all duration-500 rounded-full ${
-                  idx === currentIndex 
-                    ? "w-8 h-2.5 bg-brand-teal shadow-[0_0_10px_rgba(20,184,166,0.3)]" 
-                    : "w-2.5 h-2.5 bg-slate-200 hover:bg-slate-300"
-                }`}
-              />
+                aria-label={`Go to review ${idx + 1}`}
+                className="w-12 h-12 flex items-center justify-center relative z-10 hover:z-20"
+              >
+                <span
+                  className={`transition-all duration-500 rounded-full ${
+                    idx === currentIndex 
+                      ? "w-8 h-2.5 bg-brand-teal shadow-[0_0_10px_rgba(20,184,166,0.3)]" 
+                      : "w-2.5 h-2.5 bg-slate-300 hover:bg-slate-400"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         )}

@@ -29,16 +29,18 @@ export default function GalleryClient({ initialImages }: GalleryClientProps) {
     : [];
 
   const getCollectionCover = (name: string) => {
-    return initialImages.find(img => img.collection === name)?.url || "/Hero image.jpeg";
+    return initialImages.find(img => img.collection === name)?.url || "/hero-image.jpg";
   };
 
   return (
     <main className="min-h-screen bg-slate-50 font-sans text-slate-900">
       {/* Header Section */}
-      <section className="bg-[#001e3c] text-white py-16 md:py-24 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <Image src="/Hero image.jpeg" alt="Background" fill sizes="100vw" className="object-cover" />
+      <section className="relative bg-brand-blue-deep text-white py-20 md:py-32 overflow-hidden">
+        <div className="absolute inset-0 opacity-15 pointer-events-none">
+          <Image src="/hero-image.jpg" alt="Background" fill sizes="100vw" className="object-cover grayscale" />
         </div>
+        {/* Paytm-style gradient glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-brand-teal opacity-10 rounded-full blur-[100px] -mr-48 -mt-48" />
         
         <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 text-center md:text-left">
@@ -46,24 +48,36 @@ export default function GalleryClient({ initialImages }: GalleryClientProps) {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[11px] font-bold uppercase tracking-widest mb-4"
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[11px] font-bold uppercase tracking-widest mb-6"
               >
-                <Camera size={14} className="text-[#00baf2]" />
+                <Camera size={14} className="text-brand-teal" />
                 Hospital Gallery
               </motion.div>
+              
               <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-4xl md:text-6xl font-bold leading-tight"
+                className="text-5xl md:text-7xl font-bold leading-tight"
               >
-                {selectedCollection ? selectedCollection : "Visual Collections"}
+                {selectedCollection ? (
+                  <>
+                    Collection: <br />
+                    <span className="text-brand-teal">{selectedCollection}</span>
+                  </>
+                ) : (
+                  <>
+                    Visual <br />
+                    <span className="text-brand-teal">Collections</span>
+                  </>
+                )}
               </motion.h1>
+              
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="mt-6 text-slate-300 text-base md:text-lg leading-relaxed font-medium"
+                className="mt-8 text-slate-300 text-lg md:text-xl leading-relaxed max-w-2xl font-medium"
               >
                 {selectedCollection 
                   ? `Viewing the ${selectedCollection} collection at M L Hospital.` 
@@ -75,7 +89,7 @@ export default function GalleryClient({ initialImages }: GalleryClientProps) {
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   onClick={() => setSelectedCollection(null)}
-                  className="mt-8 flex items-center gap-2 text-[#00baf2] font-black uppercase tracking-widest text-[11px] hover:text-white transition-colors"
+                  className="mt-8 flex items-center gap-2 text-brand-teal font-black uppercase tracking-widest text-[11px] hover:text-white transition-colors"
                 >
                   <ArrowLeft size={16} /> Back to Collections
                 </motion.button>
@@ -88,12 +102,19 @@ export default function GalleryClient({ initialImages }: GalleryClientProps) {
                 <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">Total Assets</span>
               </div>
               <div className="h-12 w-px bg-white/10 mx-2" />
-              <div className="flex flex-col items-center text-[#00baf2]">
+              <div className="flex flex-col items-center text-brand-teal">
                 <Layers size={28} />
                 <span className="text-[10px] font-bold uppercase tracking-widest mt-2">{collections.length} Categories</span>
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Curved Divider */}
+        <div className="absolute -bottom-1 left-0 w-full overflow-hidden leading-[0] z-20">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[60px] md:h-[100px]">
+            <path d="M0,0 C300,10 600,100 1200,50 V120 H0 Z" fill="#f8fafc" />
+          </svg>
         </div>
       </section>
 

@@ -23,6 +23,15 @@ interface Message {
   files?: { name: string; size: number }[];
 }
 
+const escapeHTML = (text: string) => {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+};
+
 const WhatsAppChatAutomation = ({ onBack }: { onBack: () => void }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentStep, setCurrentStep] = useState(0);
@@ -228,7 +237,7 @@ const WhatsAppChatAutomation = ({ onBack }: { onBack: () => void }) => {
                     ))}
                   </div>
                 ) : null}
-                <p className="text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: msg.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                <p className="text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: escapeHTML(msg.text).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
                 <span className={`text-[10px] block text-right mt-1 opacity-70 ${msg.sender === "user" ? "text-white/80" : "text-slate-400"}`}>
                   {msg.timestamp}
                 </span>

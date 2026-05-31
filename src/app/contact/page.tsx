@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import EmergencyModal from "@/components/EmergencyModal";
 import AppointmentModal from "@/components/AppointmentModal";
@@ -67,42 +68,54 @@ export default function ContactPage() {
   return (
     <main className="bg-white">
       {/* Hero Banner */}
-      <section className="relative bg-brand-blue-deep overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-teal opacity-10 rounded-full -mr-60 -mt-60 blur-[100px]" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-teal opacity-10 rounded-full -ml-40 -mb-40 blur-[80px]" />
+      <section className="relative bg-brand-blue-deep text-white py-20 md:py-32 overflow-hidden">
+        <div className="absolute inset-0 opacity-15">
+          <Image 
+            src="/WhatsApp Image 2026-04-10 at 4.44.28 PM (1).jpeg" 
+            alt="ML Hospital Entrance" 
+            fill 
+            sizes="100vw" 
+            className="object-cover grayscale"
+            priority
+          />
         </div>
-        <div className="relative max-w-7xl mx-auto px-6 md:px-12 py-24 md:py-32">
+        {/* Paytm-style gradient glow */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-brand-teal opacity-10 rounded-full blur-[100px] -mr-48 -mt-48" />
+        
+        <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10 text-center md:text-left">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-brand-teal font-bold text-[11px] uppercase tracking-widest mb-6 backdrop-blur-sm"
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[11px] font-bold uppercase tracking-widest mb-6"
           >
-            <Zap size={14} />
+            <Zap size={14} className="text-brand-teal" />
             Get In Touch
           </motion.div>
-          <motion.h1
+          
+          <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight"
+            className="text-5xl md:text-7xl font-bold leading-tight"
           >
-            Contact <span className="text-brand-teal">Us</span>
+            Contact <br />
+            <span className="text-brand-teal">Us</span>
           </motion.h1>
-          <motion.p
+          
+          <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-slate-300 text-lg max-w-2xl font-medium leading-relaxed mb-8"
+            className="mt-8 text-slate-300 text-lg md:text-xl leading-relaxed max-w-2xl"
           >
-            We&apos;re here to help you 24/7. Reach out for appointments,
-            emergencies, or any enquiry — our team is always ready to assist.
+            We&apos;re here to help you 24/7. Reach out for appointments, emergencies, or any enquiry — our team is always ready to assist.
           </motion.p>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="flex flex-wrap gap-4"
+            className="flex flex-wrap justify-center md:justify-start gap-4 mt-8"
           >
             <a
               href="tel:8885553193"
@@ -121,6 +134,13 @@ export default function ContactPage() {
               Get Directions
             </a>
           </motion.div>
+        </div>
+        
+        {/* Curved Divider */}
+        <div className="absolute -bottom-1 left-0 w-full overflow-hidden leading-[0] z-20">
+          <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-full h-[60px] md:h-[100px]">
+            <path d="M0,0 C300,10 600,100 1200,50 V120 H0 Z" fill="white" />
+          </svg>
         </div>
       </section>
 

@@ -22,9 +22,11 @@ import {
   Trash2,
   Users as UsersIcon,
   LayoutDashboard,
-  UserCheck
+  UserCheck,
+  Download
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import toast from "react-hot-toast";
 import UserManagement from "@/components/admin/UserManagement";
 import ReviewManagement from "@/components/admin/ReviewManagement";
 import DoctorManagement from "@/components/admin/DoctorManagement";
@@ -110,6 +112,34 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
       setLoading(false);
     }
   }, []);
+
+  const exportAppointmentsToCSV = () => {
+    if (appointments.length === 0) {
+      toast.error("No appointments to export");
+      return;
+    }
+    const headers = ["Patient Name", "Doctor", "Date", "Time", "Status", "Location", "OP Number", "Created At"];
+    const rows = appointments.map(apt => [
+      `"${apt.name.replace(/"/g, '""')}"`,
+      `"${apt.doctor.replace(/"/g, '""')}"`,
+      `"${new Date(apt.date).toLocaleDateString()}"`,
+      `"${apt.time.replace(/"/g, '""')}"`,
+      `"${apt.status.toUpperCase()}"`,
+      `"${(apt.location || "").replace(/"/g, '""')}"`,
+      `"${(apt.opNumber || "").replace(/"/g, '""')}"`,
+      `"${new Date(apt.createdAt).toLocaleString()}"`
+    ]);
+    const csvContent = [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `appointments_export_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success("Appointments exported successfully");
+  };
 
   useEffect(() => {
     // Refresh data every 10 seconds for real-time feel
@@ -201,23 +231,47 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
 
   return (
     <div className="min-h-screen bg-slate-50 pb-20">
-      <nav className="bg-white border-b border-slate-200 sticky top-0 z-30 px-6 md:px-12 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-8">
+      <nav className="bg-white border-b border-slate-200 sticky top-0 z-30 px-6 md:px-12 py-3 md:py-4">
+        <div className="max-w-7xl mx-auto flex flex-col gap-4">
+          {/* Top Row: Logo & User Profile */}
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="h-10 w-10 rounded-full bg-brand-blue-deep flex items-center justify-center">
+              <div className="h-10 w-10 rounded-full bg-brand-blue-deep flex items-center justify-center flex-shrink-0">
                 <Stethoscope className="text-brand-teal" size={20} />
               </div>
               <div>
-                <h1 className="text-lg font-bold text-slate-900 leading-none">Administration</h1>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">M L Hospital Nagercoil</p>
+                <h1 className="text-base md:text-lg font-bold text-slate-900 leading-none">Administration</h1>
+                <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">M L Hospital Nagercoil</p>
               </div>
             </div>
 
-            <div className="hidden lg:flex items-center bg-slate-50 rounded-2xl p-1 border border-slate-100">
+            <div className="flex items-center gap-4 md:gap-6">
+              <div className="flex items-center gap-3 pr-4 md:pr-6 border-r border-slate-100">
+                <div className="text-right hidden sm:block">
+                  <p className="text-[11px] font-bold text-slate-900 leading-none">{userProfile.name}</p>
+                  <p className="text-[9px] font-bold text-brand-teal uppercase tracking-widest mt-1">{userProfile.role}</p>
+                </div>
+                <div className="w-9 h-9 rounded-xl bg-brand-teal/10 flex items-center justify-center text-brand-teal flex-shrink-0" title={`${userProfile.name} (${userProfile.role})`}>
+                  <UserIcon size={18} />
+                </div>
+              </div>
+              
+              <button 
+                onClick={handleLogout}
+                className="p-2.5 text-slate-400 hover:text-red-500 transition-colors flex-shrink-0"
+                title="Sign Out"
+              >
+                <LogOut size={20} />
+              </button>
+            </div>
+          </div>
+
+          {/* Bottom Row: Navigation Tabs (Scrollable & responsive) */}
+          <div className="flex items-center overflow-x-auto scrollbar-none -mx-6 px-6 md:-mx-0 md:px-0 pb-1">
+            <div className="flex items-center bg-slate-50 rounded-2xl p-1 border border-slate-100 w-max min-w-full md:min-w-0">
               <button 
                 onClick={() => setActiveTab("overview")}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                className={`flex-shrink-0 whitespace-nowrap flex items-center gap-2 px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                   activeTab === "overview" ? "bg-white text-brand-blue-deep shadow-sm" : "text-slate-400 hover:text-slate-600"
                 }`}
               >
@@ -226,7 +280,7 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
               </button>
               <button 
                 onClick={() => { setActiveTab("dashboard"); setFilter("emergency"); }}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                className={`flex-shrink-0 whitespace-nowrap flex items-center gap-2 px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                   activeTab === "dashboard" && filter === "emergency" ? "bg-red-500 text-white shadow-lg shadow-red-500/20" : "text-slate-400 hover:text-slate-600"
                 }`}
               >
@@ -240,7 +294,7 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
               </button>
               <button 
                 onClick={() => { setActiveTab("dashboard"); setFilter("all"); }}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all relative ${
+                className={`flex-shrink-0 whitespace-nowrap flex items-center gap-2 px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all relative ${
                   activeTab === "dashboard" && filter !== "emergency" ? "bg-white text-brand-blue-deep shadow-sm" : "text-slate-400 hover:text-slate-600"
                 }`}
               >
@@ -254,7 +308,7 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
               </button>
               <button 
                 onClick={() => setActiveTab("reviews")}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                className={`flex-shrink-0 whitespace-nowrap flex items-center gap-2 px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                   activeTab === "reviews" ? "bg-white text-brand-blue-deep shadow-sm" : "text-slate-400 hover:text-slate-600"
                 }`}
               >
@@ -263,7 +317,7 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
               </button>
               <button 
                 onClick={() => setActiveTab("doctors")}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                className={`flex-shrink-0 whitespace-nowrap flex items-center gap-2 px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                   activeTab === "doctors" ? "bg-white text-brand-blue-deep shadow-sm" : "text-slate-400 hover:text-slate-600"
                 }`}
               >
@@ -272,7 +326,7 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
               </button>
               <button 
                 onClick={() => setActiveTab("gallery")}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                className={`flex-shrink-0 whitespace-nowrap flex items-center gap-2 px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                   activeTab === "gallery" ? "bg-white text-brand-blue-deep shadow-sm" : "text-slate-400 hover:text-slate-600"
                 }`}
               >
@@ -281,7 +335,7 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
               </button>
               <button 
                 onClick={() => setActiveTab("second-opinion")}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all relative ${
+                className={`flex-shrink-0 whitespace-nowrap flex items-center gap-2 px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all relative ${
                   activeTab === "second-opinion" ? "bg-white text-brand-blue-deep shadow-sm" : "text-slate-400 hover:text-slate-600"
                 }`}
               >
@@ -296,7 +350,7 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
               {hasPermission("manage_users") && (
                 <button 
                   onClick={() => setActiveTab("users")}
-                  className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                  className={`flex-shrink-0 whitespace-nowrap flex items-center gap-2 px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
                     activeTab === "users" ? "bg-white text-brand-blue-deep shadow-sm" : "text-slate-400 hover:text-slate-600"
                   }`}
                 >
@@ -305,26 +359,6 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
                 </button>
               )}
             </div>
-          </div>
-
-          <div className="flex items-center gap-6">
-            <div className="hidden md:flex items-center gap-3 pr-6 border-r border-slate-100">
-              <div className="text-right">
-                <p className="text-[11px] font-bold text-slate-900 leading-none">{userProfile.name}</p>
-                <p className="text-[9px] font-bold text-brand-teal uppercase tracking-widest mt-1">{userProfile.role}</p>
-              </div>
-              <div className="w-9 h-9 rounded-xl bg-brand-teal/10 flex items-center justify-center text-brand-teal">
-                <UserIcon size={18} />
-              </div>
-            </div>
-            
-            <button 
-              onClick={handleLogout}
-              className="p-3 text-slate-400 hover:text-red-500 transition-colors"
-              title="Sign Out"
-            >
-              <LogOut size={22} />
-            </button>
           </div>
         </div>
       </nav>
@@ -397,6 +431,14 @@ export default function AdminDashboard({ initialData, userProfile }: AdminDashbo
                         </button>
                       ))}
                     </div>
+                    <button 
+                      onClick={exportAppointmentsToCSV}
+                      className="px-5 h-12 bg-brand-teal text-white rounded-2xl border border-brand-teal/20 transition-all font-bold text-xs flex items-center gap-2 hover:brightness-105 active:scale-95 shadow-md shadow-brand-teal/10 cursor-pointer"
+                      title="Export to CSV"
+                    >
+                      <Download size={16} />
+                      Export CSV
+                    </button>
                     <button 
                       onClick={fetchAppointments}
                       className={`p-3.5 bg-brand-teal/10 text-brand-teal rounded-2xl border border-brand-teal/20 transition-all ${loading ? 'animate-spin' : ''}`}

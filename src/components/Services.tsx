@@ -3,7 +3,9 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import EmergencyModal from "./EmergencyModal";
+import dynamic from "next/dynamic";
+
+const EmergencyModal = dynamic(() => import("./EmergencyModal"), { ssr: false });
 import { 
   HeartPulse, 
   Activity, 

@@ -4,8 +4,10 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Phone, MessageSquare, Award, CheckCircle2, AlertCircle } from "lucide-react";
-import EmergencyModal from "./EmergencyModal";
-import AppointmentModal from "./AppointmentModal";
+import dynamic from "next/dynamic";
+
+const EmergencyModal = dynamic(() => import("./EmergencyModal"), { ssr: false });
+const AppointmentModal = dynamic(() => import("./AppointmentModal"), { ssr: false });
 
 interface Doctor {
   id: string;
@@ -101,7 +103,6 @@ const Doctors = ({ doctors }: { doctors: Doctor[] }) => {
                   alt={doctor.name}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  priority={index < 3}
                   className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-blue-deep/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

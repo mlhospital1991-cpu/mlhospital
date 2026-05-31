@@ -2,7 +2,7 @@ import React from "react";
 import prisma from "@/lib/prisma";
 import GalleryClient from "@/components/gallery/GalleryClient";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function GalleryPage() {
   // Fetch images directly on the server (SSR)

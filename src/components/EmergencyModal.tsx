@@ -118,7 +118,8 @@ const EmergencyModal: React.FC<EmergencyModalProps> = ({ isOpen, onClose, whatsa
               <div className="bg-red-600 p-8 text-white relative">
                 <button 
                   onClick={onClose}
-                  className="absolute top-6 right-6 p-1.5 hover:bg-white/20 rounded-full transition-colors"
+                  className="absolute top-5 right-5 w-12 h-12 flex items-center justify-center hover:bg-white/20 rounded-full transition-colors p-0"
+                  aria-label="Close emergency modal"
                 >
                   <X size={20} />
                 </button>
@@ -134,7 +135,7 @@ const EmergencyModal: React.FC<EmergencyModalProps> = ({ isOpen, onClose, whatsa
               {/* Form */}
               <div className="p-10 space-y-6">
                 <div className="space-y-2">
-                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] ml-2">Your Name</label>
+                  <label className="text-[11px] font-bold text-slate-600 uppercase tracking-[0.2em] ml-2">Your Name</label>
                   <input
                     type="text"
                     placeholder="Enter full name"
@@ -145,7 +146,7 @@ const EmergencyModal: React.FC<EmergencyModalProps> = ({ isOpen, onClose, whatsa
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] ml-2">Current Location</label>
+                  <label className="text-[11px] font-bold text-slate-600 uppercase tracking-[0.2em] ml-2">Current Location</label>
                   <input
                     type="text"
                     placeholder="Area or landmark in Nagercoil"
@@ -156,7 +157,7 @@ const EmergencyModal: React.FC<EmergencyModalProps> = ({ isOpen, onClose, whatsa
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] ml-2">Describe Issue</label>
+                  <label className="text-[11px] font-bold text-slate-600 uppercase tracking-[0.2em] ml-2">Describe Issue</label>
                   <textarea
                     placeholder="e.g. Fracture, Accident, Critical pain"
                     rows={3}
@@ -185,7 +186,7 @@ const EmergencyModal: React.FC<EmergencyModalProps> = ({ isOpen, onClose, whatsa
                   )}
                 </button>
                 
-                <p className="text-center text-slate-400 text-[11px] font-bold uppercase tracking-widest mt-4">
+                <p className="text-center text-slate-600 text-[11px] font-bold uppercase tracking-widest mt-4">
                   * Opens WhatsApp automatically
                 </p>
               </div>

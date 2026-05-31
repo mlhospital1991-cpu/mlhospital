@@ -93,6 +93,37 @@ export default function SecondOpinionManagement({ initialRequests = [] }: Second
     }
   };
 
+  const exportRequestsToCSV = () => {
+    if (requests.length === 0) {
+      toast.error("No requests to export");
+      return;
+    }
+    const headers = ["Patient Name", "Email", "Phone", "Age", "Gender", "Symptoms", "Current Diagnosis", "Questions", "Reports Count", "Status", "Created At"];
+    const rows = requests.map(req => [
+      `"${req.patientName.replace(/"/g, '""')}"`,
+      `"${req.email.replace(/"/g, '""')}"`,
+      `"${req.phone.replace(/"/g, '""')}"`,
+      req.age || "",
+      `"${(req.gender || "").replace(/"/g, '""')}"`,
+      `"${req.symptoms.replace(/"/g, '""')}"`,
+      `"${(req.currentDiagnosis || "").replace(/"/g, '""')}"`,
+      `"${(req.questions || "").replace(/"/g, '""')}"`,
+      req.reportUrls.length,
+      `"${req.status.toUpperCase()}"`,
+      `"${new Date(req.createdAt).toLocaleString()}"`
+    ]);
+    const csvContent = [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `second_opinions_export_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success("Requests exported successfully");
+  };
+
   return (
     <div className="py-6">
       <div className="flex justify-between items-center mb-8">
@@ -100,6 +131,13 @@ export default function SecondOpinionManagement({ initialRequests = [] }: Second
           <h1 className="text-3xl font-bold text-slate-900">Second Opinion Requests</h1>
           <p className="text-slate-500 text-sm">Review medical reports and provide expert consultations.</p>
         </div>
+        <button 
+          onClick={exportRequestsToCSV}
+          className="px-5 py-3 bg-brand-teal text-white rounded-2xl font-bold text-xs flex items-center gap-2 hover:brightness-105 active:scale-95 transition-all shadow-md shadow-brand-teal/10 cursor-pointer"
+        >
+          <Download size={16} />
+          Export CSV
+        </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

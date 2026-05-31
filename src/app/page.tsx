@@ -6,7 +6,7 @@ import Services from "@/components/Services";
 import { RefreshCw } from "lucide-react";
 import prisma from "@/lib/prisma";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 30;
 
 export default async function Home() {
   // Safety check for generated client sync

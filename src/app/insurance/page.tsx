@@ -2,8 +2,6 @@ import React from "react";
 import { ShieldCheck } from "lucide-react";
 import InsuranceClient from "@/components/insurance/InsuranceClient";
 
-export const dynamic = "force-dynamic";
-
 export default function InsurancePage() {
   return (
     <main className="bg-slate-50 min-h-screen">

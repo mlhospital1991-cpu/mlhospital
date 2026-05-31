@@ -5,8 +5,10 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { MessageSquare, Phone, Star, Navigation, Stethoscope } from "lucide-react";
 import { useState } from "react";
-import EmergencyModal from "./EmergencyModal";
-import AppointmentModal from "./AppointmentModal";
+import dynamic from "next/dynamic";
+
+const EmergencyModal = dynamic(() => import("./EmergencyModal"), { ssr: false });
+const AppointmentModal = dynamic(() => import("./AppointmentModal"), { ssr: false });
 
 const Hero = () => {
   const [isEmergencyModalOpen, setIsEmergencyModalOpen] = useState(false);
@@ -142,7 +144,8 @@ const Hero = () => {
       <div className="lg:hidden fixed bottom-6 left-6 right-6 z-[60] flex items-center gap-3">
         <a 
           href={`tel:${callNumber}`}
-          className="bg-white/95 backdrop-blur-md p-3.5 rounded-2xl text-brand-teal shadow-2xl border border-slate-100 flex items-center justify-center"
+          className="bg-white/95 backdrop-blur-md w-12 h-12 rounded-2xl text-brand-teal shadow-2xl border border-slate-100 flex items-center justify-center shrink-0"
+          aria-label="Call emergency helpline"
         >
           <Phone size={20} fill="currentColor" className="text-brand-teal" />
         </a>

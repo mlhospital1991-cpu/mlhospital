@@ -6,8 +6,10 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageSquare, Phone, ChevronRight, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
-import EmergencyModal from "./EmergencyModal";
-import AppointmentModal from "./AppointmentModal";
+import dynamic from "next/dynamic";
+
+const EmergencyModal = dynamic(() => import("./EmergencyModal"), { ssr: false });
+const AppointmentModal = dynamic(() => import("./AppointmentModal"), { ssr: false });
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -56,14 +58,14 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Nav - Neater & Aligned */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+          <nav className="hidden lg:flex items-center lg:gap-0.5 xl:gap-2">
             {navLinks.filter(l => l.name !== "Home").map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`px-3 py-2 rounded-xl text-[12px] font-black uppercase tracking-wider transition-all whitespace-nowrap flex items-center gap-1.5 ${
+                  className={`lg:px-2 lg:py-1.5 xl:px-3 xl:py-2 rounded-xl lg:text-[10px] xl:text-[12px] font-black uppercase tracking-wider transition-all whitespace-nowrap flex items-center gap-1 xl:gap-1.5 ${
                     isActive 
                       ? "text-brand-teal bg-brand-teal/5" 
                       : "text-slate-600 hover:text-brand-teal hover:bg-slate-50"
@@ -81,17 +83,17 @@ const Navbar = () => {
           </nav>
 
           {/* Action Group */}
-          <div className="hidden lg:flex items-center gap-5 shrink-0 pl-4 border-l border-slate-100">
+          <div className="hidden lg:flex items-center lg:gap-3 xl:gap-5 shrink-0 lg:pl-3 xl:pl-4 border-l border-slate-100">
             <a href={`tel:${callNumber}`} className="flex flex-col items-end group">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">24/7 Helpline</span>
-              <span className="flex items-center gap-1.5 text-[15px] font-black text-slate-900 group-hover:text-brand-teal transition-colors">
-                <Phone size={14} className="text-brand-teal" />
+              <span className="hidden xl:block text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-none mb-1">24/7 Helpline</span>
+              <span className="flex items-center gap-1 xl:gap-1.5 lg:text-[12px] xl:text-[15px] font-black text-slate-900 group-hover:text-brand-teal transition-colors">
+                <Phone size={13} className="text-brand-teal" />
                 {callNumber}
               </span>
             </a>
             <button
               onClick={() => setIsAppointmentModalOpen(true)}
-              className="bg-brand-blue-deep hover:bg-brand-blue-deep/90 text-white px-6 py-3.5 rounded-2xl font-black text-[12px] uppercase tracking-widest transition-all shadow-xl shadow-brand-blue-deep/10 active:scale-95"
+              className="bg-brand-blue-deep hover:bg-brand-blue-deep/90 text-white lg:px-4 lg:py-2.5 xl:px-6 xl:py-3.5 rounded-2xl font-black lg:text-[10px] xl:text-[12px] uppercase tracking-widest transition-all shadow-xl shadow-brand-blue-deep/10 active:scale-95 whitespace-nowrap"
             >
               Emergency Appointment
             </button>
@@ -99,8 +101,9 @@ const Navbar = () => {
 
           {/* Mobile Hamburger */}
           <button 
-            className="lg:hidden text-slate-800 p-2.5 bg-slate-50 rounded-2xl border border-slate-100 transition-all active:scale-90" 
+            className="lg:hidden text-slate-800 w-12 h-12 flex items-center justify-center bg-slate-50 rounded-2xl border border-slate-100 transition-all active:scale-90" 
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
             {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -126,7 +129,7 @@ const Navbar = () => {
                   className="h-full w-full object-cover"
                 />
               </div>
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em]">M L Hospital</span>
+              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-[0.3em]">M L Hospital</span>
             </div>
             <nav className="flex flex-col p-6 pt-2 gap-3">
               {navLinks.map((link) => (

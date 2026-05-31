@@ -76,8 +76,11 @@ const Footer = () => {
                 </svg>
               </a>
               <a 
-                href="#" 
+                href="https://mlhospitalnagercoil.in" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center hover:bg-brand-teal hover:text-white transition-all duration-300"
+                title="ML Hospital Nagercoil Website"
               >
                 <Share2 size={18} />
               </a>
