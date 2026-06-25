@@ -93,9 +93,9 @@ const PrivacyPolicy = () => {
               </p>
               <div className="mt-4 p-6 bg-brand-teal/5 rounded-2xl border border-brand-teal/10">
                 <p className="font-bold text-slate-900">M L Hospital</p>
-                <p className="text-sm text-slate-600">P.W.D Road, Nagercoil, Tamil Nadu 629001</p>
-                <p className="text-sm text-slate-600">Email: info@mlhospital.com</p>
-                <p className="text-sm text-slate-600">Phone: +91 88855 53193</p>
+                <p className="text-sm text-slate-600">ML hospital, Rajakamangalam road, Punnai nagar, Nagercoil</p>
+                <p className="text-sm text-slate-600">Email: mlhospital1@gmail.com</p>
+                <p className="text-sm text-slate-600">Phone: 04652-220820</p>
               </div>
             </section>
           </div>

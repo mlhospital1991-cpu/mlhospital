@@ -133,7 +133,7 @@ const Footer = () => {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-white mb-1">Our Location</p>
-                  <p className="text-[13px] leading-relaxed text-slate-400">P.W.D Road, Nagercoil,<br />Tamil Nadu 629001</p>
+                  <p className="text-[13px] leading-relaxed text-slate-400">ML hospital, Rajakamangalam road,<br />Punnai nagar, Nagercoil</p>
                 </div>
               </div>
 
@@ -142,8 +142,8 @@ const Footer = () => {
                   <Phone size={20} />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-white mb-1">Emergency 24/7</p>
-                  <a href={`tel:${whatsappNumber}`} className="text-[13px] text-slate-400 hover:text-brand-teal transition-colors">+91 88855 53193</a>
+                  <p className="text-sm font-bold text-white mb-1">Phone Number</p>
+                  <a href="tel:04652220820" className="text-[13px] text-slate-400 hover:text-brand-teal transition-colors">04652-220820</a>
                 </div>
               </div>
 
@@ -153,7 +153,7 @@ const Footer = () => {
                 </div>
                 <div>
                   <p className="text-sm font-bold text-white mb-1">Email Us</p>
-                  <a href="mailto:info@mlhospital.com" className="text-[13px] text-slate-400 hover:text-brand-teal transition-colors">info@mlhospital.com</a>
+                  <a href="mailto:mlhospital1@gmail.com" className="text-[13px] text-slate-400 hover:text-brand-teal transition-colors">mlhospital1@gmail.com</a>
                 </div>
               </div>
             </div>
