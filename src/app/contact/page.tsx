@@ -193,7 +193,7 @@ export default function ContactPage() {
               className="lg:col-span-3 rounded-[32px] overflow-hidden border border-slate-200 shadow-sm h-[400px] lg:h-auto"
             >
               <iframe
-                src="https://www.google.com/maps?q=M+L+Hospital,+Court+Road,+Nagercoil,+Tamil+Nadu&output=embed"
+                src="https://maps.google.com/maps?q=ML+hospital,+Rajakamangalam+road,+Punnai+nagar,+Nagercoil&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 width="100%"
                 height="100%"
                 style={{ border: 0, minHeight: 400 }}
